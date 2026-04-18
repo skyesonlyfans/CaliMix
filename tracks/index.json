@@ -31,52 +31,12 @@
   },
   {
     "id": "west-coast",
-    "title": "West Coast",
-    "artist": "Lana Del Rey",
-    "album": "Ultraviolence",
-    "genre": "Alternative",
-    "art": "https://images.unsplash.com/photo-1505852903341-fc8d3db10436?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/west-coast.mp3",
-    "tags": ["moody", "cali", "alternative"]
-  },
-  {
-    "id": "san-diego",
-    "title": "San Diego",
-    "artist": "Blink-182",
-    "album": "California",
-    "genre": "Pop Punk",
-    "art": "https://images.unsplash.com/photo-1516900548057-da0760b09460?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/san-diego.mp3",
-    "tags": ["punk", "rock", "nostalgia"]
-  },
-  {
-    "id": "hotel-california",
-    "title": "Hotel California",
-    "artist": "Eagles",
-    "album": "Hotel California",
-    "genre": "Rock",
-    "art": "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/hotel-california.mp3",
-    "tags": ["classic", "rock", "legendary"]
-  },
-  {
-    "id": "californication",
-    "title": "Californication",
-    "artist": "Red Hot Chili Peppers",
-    "album": "Californication",
-    "genre": "Alternative Rock",
-    "art": "https://images.unsplash.com/photo-1470219556762-1771e7f9427d?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/californication.mp3",
-    "tags": ["90s", "rock", "chilipeppers"]
-  },
-  {
-    "id": "malibu",
-    "title": "Malibu",
-    "artist": "Miley Cyrus",
-    "album": "Younger Now",
-    "genre": "Pop",
-    "art": "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/miley-malibu.mp3",
-    "tags": ["beach", "pop", "happy"]
+    "title": "Backstroke",
+    "artist": "Dezzy Hollow",
+    "album": "Backstroke",
+    "genre": "Rap",
+    "art": "https://lh3.googleusercontent.com/c9xGti067x2SCQx-0jcMHsZfxgY9gxlgmBozEanKt45jAYxquub-nq6BsIjCHb9A7GkmilmGc9d3HfjS=w544-h544-l90-rj",
+    "src": "/tracks/backstroke.mp3",
+    "tags": ["rap", "cali"]
   }
 ]

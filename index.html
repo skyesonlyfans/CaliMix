@@ -390,15 +390,17 @@
         const db = getFirestore(app);
 
         const b2Config = {
-            endpoint: "https://s3.us-east-005.backblazeb2.com",
-            region: "us-east-005",
-            bucketName: "calimix",
-            credentials: {
-                accessKeyId: "0058aaeb5bf587b000000000a", 
-                secretAccessKey: "K005tnV/kyvmBSfHllDXJVE6lIdzIos"
-            }
-        };
+    bucketName: "calimix", // Keep this for our ListObjects command later
+};
 
+const s3Client = new S3Client({
+    endpoint: "https://s3.us-east-005.backblazeb2.com",
+    region: "us-east-005",
+    credentials: {
+        accessKeyId: "0058aaeb5bf587b000000000a", 
+        secretAccessKey: "K005tnV/kyvmBSfHllDXJVE6lIdzIos"
+    }
+});
         const s3Client = new S3Client(b2Config);
 
         // Application State

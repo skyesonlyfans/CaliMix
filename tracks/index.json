@@ -1,0 +1,13 @@
+{
+  "tracks": [
+    {
+      "title": "Like This",
+      "artist": "Kaneezy",
+      "album": "Like This",
+      "genre": "Rap",
+      "art": "/tracks/art/likethis.jpg",
+      "src": "/tracks/likethis.mp3",
+      "tags": ["coastal"]
+    }
+  ]
+}

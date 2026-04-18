@@ -2,1277 +2,1625 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CaliMix by Skye</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>CaliMix🌴 by Skye</title>
   <style>
     :root {
-      --bg: #07110c;
-      --panel: rgba(18, 28, 23, 0.62);
-      --panel-2: rgba(255, 255, 255, 0.07);
-      --line: rgba(255, 255, 255, 0.1);
-      --text: #f4fff8;
-      --muted: rgba(244, 255, 248, 0.62);
-      --accent: #44d07f;
-      --accent-soft: rgba(68, 208, 127, 0.18);
-      --danger: #ff9aa5;
-      --radius: 22px;
-      --radius-sm: 14px;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
+      --bg1: #07111f;
+      --bg2: #132238;
+      --glass: rgba(255,255,255,0.12);
+      --glass-strong: rgba(255,255,255,0.18);
+      --stroke: rgba(255,255,255,0.18);
+      --text: #f5f7fb;
+      --muted: rgba(245,247,251,0.72);
+      --accent: #8af5c7;
+      --accent-2: #74c5ff;
+      --danger: #ff7d88;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --blur: blur(22px);
+      --maxw: 1440px;
+      --player-h: 118px;
     }
 
     * { box-sizing: border-box; }
-
     html, body {
       margin: 0;
+      padding: 0;
       min-height: 100%;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(68, 208, 127, 0.15), transparent 26%),
-        radial-gradient(circle at top right, rgba(255, 255, 255, 0.06), transparent 20%),
-        linear-gradient(180deg, #08110d, #0c1712 44%, #0a120e);
+        radial-gradient(circle at top left, rgba(116,197,255,0.25), transparent 28%),
+        radial-gradient(circle at top right, rgba(138,245,199,0.20), transparent 22%),
+        linear-gradient(160deg, var(--bg1), var(--bg2) 55%, #0b1420 100%);
+      background-attachment: fixed;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%, transparent 82%, rgba(255,255,255,0.015));
+    body {
+      padding-bottom: calc(var(--player-h) + env(safe-area-inset-bottom) + 24px);
+    }
+
+    a { color: inherit; }
+    button, input, select, textarea {
+      font: inherit;
+      color: inherit;
     }
 
     .app {
-      max-width: 1320px;
+      max-width: var(--maxw);
       margin: 0 auto;
-      padding: 18px;
+      padding: 20px 16px 120px;
     }
 
-    .glass {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(18px) saturate(140%);
-      -webkit-backdrop-filter: blur(18px) saturate(140%);
-      box-shadow: var(--shadow);
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 18px;
-      min-height: calc(100vh - 36px);
-    }
-
-    .sidebar,
-    .main,
-    .playerbar {
-      border-radius: 28px;
-    }
-
-    .sidebar {
-      padding: 16px;
-      display: grid;
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 14px;
-      align-content: start;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding: 8px 0 14px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .brand {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 6px 4px 12px;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .logo {
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .title {
+      font-size: clamp(24px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .title span { filter: saturate(1.2); }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn, .icon-btn {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.10);
+      color: var(--text);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform .16s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+      user-select: none;
+    }
+
+    .btn:hover, .icon-btn:hover { transform: translateY(-1px); }
+    .btn:active, .icon-btn:active { transform: translateY(0); }
+    .btn[disabled], .icon-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+    .btn {
+      padding: 10px 16px;
+      min-height: 42px;
+      font-weight: 600;
+    }
+
+    .icon-btn {
       width: 42px;
       height: 42px;
-      border-radius: 14px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, rgba(68,208,127,0.24), rgba(255,255,255,0.1));
-      border: 1px solid var(--line);
       font-size: 18px;
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 1rem;
-    }
-
-    .brand p {
-      margin: 3px 0 0;
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    .group-label {
-      margin: 2px 0 8px;
-      padding: 0 4px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(244,255,248,0.48);
-    }
-
-    .nav,
-    .mix-list,
-    .auth-actions {
-      display: grid;
-      gap: 8px;
-    }
-
-    .nav-btn,
-    .mix-btn,
-    .btn,
-    .track,
-    .mini-btn {
-      appearance: none;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      border-radius: 16px;
-      cursor: pointer;
-      transition: transform 0.16s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-    }
-
-    .nav-btn,
-    .mix-btn {
-      padding: 12px 14px;
-      text-align: left;
-      font-size: 0.95rem;
-    }
-
-    .nav-btn:hover,
-    .mix-btn:hover,
-    .btn:hover,
-    .track:hover,
-    .mini-btn:hover {
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.16);
-    }
-
-    .nav-btn.active,
-    .mix-btn.active {
-      background: var(--accent-soft);
-      border-color: rgba(68,208,127,0.34);
-    }
-
-    .btn {
-      padding: 12px 14px;
-      font-size: 0.92rem;
-    }
-
     .btn.primary {
-      background: linear-gradient(180deg, rgba(68,208,127,0.24), rgba(68,208,127,0.16));
-      border-color: rgba(68,208,127,0.34);
+      background: linear-gradient(135deg, rgba(138,245,199,0.34), rgba(116,197,255,0.28));
+      border-color: rgba(138,245,199,0.35);
     }
 
-    .btn.ghost { background: rgba(255,255,255,0.03); }
-    .btn.danger { color: #ffe9ec; background: rgba(255, 94, 114, 0.12); }
-
-    .input,
-    .search {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      padding: 12px 14px;
-      outline: none;
-      font-size: 0.94rem;
-    }
-
-    .input::placeholder,
-    .search::placeholder { color: rgba(244,255,248,0.35); }
-
-    .input:focus,
-    .search:focus {
-      border-color: rgba(68,208,127,0.34);
-      background: rgba(255,255,255,0.07);
-    }
-
-    .auth-box {
-      padding: 14px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
-      display: grid;
-      gap: 8px;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 0.83rem;
-      line-height: 1.45;
-    }
-
-    .status {
-      min-height: 18px;
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    .status.err { color: var(--danger); }
-    .status.ok { color: #a5f5bf; }
-
-    .main {
-      padding: 14px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 14px;
-    }
-
-    .topline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 4px;
-    }
-
-    .headline {
-      min-width: 0;
-    }
-
-    .headline h2 {
-      margin: 0;
-      font-size: 1.7rem;
-      line-height: 1.05;
-    }
-
-    .headline p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .pill {
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
-      color: var(--muted);
-      font-size: 0.82rem;
-      white-space: nowrap;
-    }
+    .btn.danger { border-color: rgba(255,125,136,0.35); color: #ffd7db; }
 
     .hero {
-      padding: 20px;
-      border-radius: 26px;
       display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 18px;
-      align-items: center;
-      background:
-        radial-gradient(circle at top left, rgba(68,208,127,0.16), transparent 36%),
-        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
-    .cover {
-      aspect-ratio: 1 / 1;
-      border-radius: 24px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 28% 24%, rgba(68,208,127,0.34), transparent 20%),
-        radial-gradient(circle at 74% 20%, rgba(255,255,255,0.12), transparent 18%),
-        linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
-      display: grid;
-      place-items: center;
-      font-size: 3rem;
+    .hero-card, .side-card, .section-card, .player {
+      border-radius: var(--radius-xl);
+      padding: 18px;
     }
 
-    .hero-copy .eyebrow {
-      color: rgba(244,255,248,0.56);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-size: 0.72rem;
-      margin-bottom: 8px;
+    .hero-card {
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      isolation: isolate;
     }
 
-    .hero-copy h3 {
-      margin: 0;
-      font-size: clamp(1.8rem, 2.6vw, 3rem);
-      line-height: 0.98;
-      max-width: 14ch;
-      word-break: break-word;
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -20% auto auto -10%;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(138,245,199,0.28), transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(116,197,255,0.22), transparent 68%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-copy h2 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 56px);
+      line-height: .95;
+      letter-spacing: -0.04em;
     }
 
     .hero-copy p {
-      margin: 8px 0 0;
+      margin: 0;
+      max-width: 56ch;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: clamp(14px, 2vw, 17px);
     }
 
-    .browse {
-      min-height: 0;
-      display: grid;
-      grid-template-rows: auto auto 1fr;
-      gap: 12px;
-    }
-
-    .browse-head {
+    .hero-actions {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .side-stack {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .side-card h3, .section-head h3, .sheet-head h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .muted { color: var(--muted); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .main-stack, .right-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-card {
+      overflow: hidden;
+    }
+
+    .section-head, .sheet-head {
+      display: flex;
       justify-content: space-between;
-      gap: 12px;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
     }
 
-    .search-wrap {
-      display: grid;
-      grid-template-columns: minmax(220px, 420px) auto;
+    .filters {
+      display: flex;
       gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .input, .select, textarea {
       width: 100%;
-      max-width: 560px;
-    }
-
-    .track-list {
-      display: grid;
-      gap: 8px;
-      overflow: auto;
-      padding-right: 4px;
-      min-height: 260px;
-      max-height: 420px;
-    }
-
-    .track-list::-webkit-scrollbar { width: 10px; }
-    .track-list::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.12);
-      border-radius: 999px;
-    }
-
-    .track {
-      display: grid;
-      grid-template-columns: 56px 1fr auto;
-      gap: 12px;
-      align-items: center;
-      padding: 10px;
-      text-align: left;
-    }
-
-    .track.active {
-      background: var(--accent-soft);
-      border-color: rgba(68,208,127,0.34);
-    }
-
-    .track-num {
-      width: 56px;
-      height: 56px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
       border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
+      outline: none;
+      padding: 12px 14px;
+      min-height: 46px;
+    }
+
+    textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    .input::placeholder, textarea::placeholder { color: rgba(245,247,251,0.5); }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 180px;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 14px;
+    }
+
+    .track-card {
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      transition: transform .16s ease, border-color .18s ease, background .18s ease;
+      min-width: 0;
+    }
+
+    .track-card:hover { transform: translateY(-2px); border-color: rgba(138,245,199,0.4); }
+    .track-card.active { border-color: rgba(138,245,199,0.62); box-shadow: inset 0 0 0 1px rgba(138,245,199,0.28); }
+
+    .art-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+    }
+
+    .art-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .placeholder-art {
+      width: 100%;
+      height: 100%;
       display: grid;
       place-items: center;
-      color: rgba(244,255,248,0.75);
-      font-size: 0.9rem;
+      font-size: 40px;
+      background: linear-gradient(135deg, rgba(138,245,199,0.18), rgba(116,197,255,0.15));
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(9,12,18,0.45);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .track-body {
+      padding: 14px;
+      display: grid;
+      gap: 8px;
     }
 
     .track-title {
-      margin: 0;
-      font-size: 0.98rem;
-      word-break: break-word;
+      font-weight: 700;
+      line-height: 1.15;
+      font-size: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 34px;
     }
 
-    .track-sub {
-      margin: 5px 0 0;
+    .track-meta {
       color: var(--muted);
-      font-size: 0.84rem;
+      font-size: 13px;
+      min-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .track-actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      justify-content: flex-end;
     }
 
-    .mini-btn {
-      padding: 10px 12px;
-      font-size: 0.82rem;
-      border-radius: 12px;
+    .pill {
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
-    .empty {
-      padding: 18px;
-      border: 1px dashed var(--line);
-      border-radius: 16px;
-      color: var(--muted);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .playerbar {
+    .mini-list {
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) 1.4fr minmax(220px, 1fr);
-      gap: 14px;
-      padding: 14px;
-      align-items: center;
+      gap: 10px;
+      max-height: 460px;
+      overflow: auto;
+      padding-right: 4px;
     }
 
-    .np {
-      display: flex;
-      align-items: center;
+    .list-item {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) auto;
       gap: 12px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .list-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .list-copy {
       min-width: 0;
     }
 
-    .np-art {
-      width: 58px;
-      height: 58px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 26% 24%, rgba(68,208,127,0.34), transparent 18%),
-        linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-      display: grid;
-      place-items: center;
-      font-size: 1.4rem;
-      flex: 0 0 auto;
-    }
-
-    .np h4 {
-      margin: 0;
-      font-size: 0.95rem;
+    .list-title {
+      font-size: 14px;
+      font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .np p {
-      margin: 4px 0 0;
-      font-size: 0.83rem;
+    .list-sub {
+      margin-top: 4px;
+      font-size: 12px;
       color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .transport {
+    .mix-list {
       display: grid;
-      gap: 8px;
+      gap: 10px;
+    }
+
+    .mix-card {
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.11);
+      display: grid;
+      gap: 10px;
+    }
+
+    .mix-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
       align-items: center;
     }
 
-    .transport-buttons {
+    .mix-name { font-weight: 700; }
+    .mix-meta { font-size: 12px; color: var(--muted); }
+
+    .mix-actions {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 0.95rem;
+    .player-shell {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 14px calc(env(safe-area-inset-bottom) + 12px);
+      z-index: 60;
+      pointer-events: none;
     }
 
-    .circle.play {
-      width: 54px;
-      height: 54px;
-      background: linear-gradient(180deg, rgba(68,208,127,0.32), rgba(68,208,127,0.18));
-      border-color: rgba(68,208,127,0.34);
+    .player {
+      max-width: min(1180px, calc(100vw - 20px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.3fr .9fr .8fr;
+      gap: 14px;
+      align-items: center;
+      pointer-events: auto;
     }
 
-    .seek-row,
-    .volume-row {
+    .now-playing {
       display: grid;
-      grid-template-columns: 44px 1fr 44px;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .now-playing img, .now-playing .placeholder-art {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      object-fit: cover;
+      font-size: 28px;
+    }
+
+    .np-title {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .np-sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-center {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .player-controls {
+      display: flex;
       gap: 10px;
       align-items: center;
+    }
+
+    .seek-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) 40px;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
       color: var(--muted);
-      font-size: 0.8rem;
     }
 
     input[type="range"] {
       width: 100%;
-      accent-color: var(--accent);
+      accent-color: #b4ffe0;
       cursor: pointer;
+      background: transparent;
     }
 
-    .right-controls {
+    .player-right {
       display: grid;
       gap: 10px;
       justify-items: end;
     }
 
-    .toggle-row {
+    .inline-group {
       display: flex;
       gap: 8px;
+      align-items: center;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
 
-    .footer-copy {
-      color: rgba(244,255,248,0.44);
-      font-size: 0.78rem;
-      text-align: right;
-      line-height: 1.4;
+    dialog.sheet {
+      width: min(720px, calc(100vw - 24px));
+      border: none;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    dialog.sheet::backdrop {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .sheet-card {
+      border-radius: 30px;
+      padding: 18px;
+      max-height: min(90vh, 900px);
+      overflow: auto;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    .helper {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .empty {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px dashed rgba(255,255,255,0.18);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
     }
 
     @media (max-width: 1100px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .playerbar {
-        grid-template-columns: 1fr;
-      }
-
-      .right-controls {
-        justify-items: stretch;
-      }
-
-      .toggle-row { justify-content: flex-start; }
-      .footer-copy { text-align: left; }
+      .hero { grid-template-columns: 1fr; }
+      .layout { grid-template-columns: 1fr; }
+      .player { grid-template-columns: 1fr; gap: 12px; }
+      .player-right, .inline-group { justify-items: start; justify-content: flex-start; }
     }
 
-    @media (max-width: 760px) {
-      .app { padding: 12px; }
-      .hero { grid-template-columns: 1fr; }
-      .search-wrap { grid-template-columns: 1fr; }
-      .topline { align-items: flex-start; flex-direction: column; }
-      .track { grid-template-columns: 52px 1fr; }
-      .track-actions { grid-column: 1 / -1; justify-content: flex-start; }
+    @media (max-width: 720px) {
+      .app { padding: 14px 12px 120px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .search-row { grid-template-columns: 1fr; }
+      .track-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats { grid-template-columns: 1fr; }
+      .player-shell { padding: 10px 10px calc(env(safe-area-inset-bottom) + 10px); }
+      .player { border-radius: 26px; padding: 14px; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .track-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .hero-card, .side-card, .section-card { padding: 15px; }
+      .title { font-size: 28px; }
+      .hero-copy h2 { font-size: 34px; }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="layout">
-      <aside class="sidebar glass">
-        <div class="brand">
-          <div class="logo">♪</div>
-          <div>
-            <h1>CaliMix by Skye</h1>
-            <p>Glassy cloud player</p>
+    <header class="topbar">
+      <div class="brand">
+        <div class="eyebrow">Glass music web app</div>
+        <div class="title">CaliMix<span>🌴</span> by Skye</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="refreshBtn" title="Reload tracks">Refresh</button>
+        <button class="btn" id="signinBtn">Sign in with Google</button>
+        <button class="btn" id="signoutBtn" hidden>Sign out</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <article class="hero-card glass">
+        <div class="hero-copy">
+          <div class="eyebrow">Surf, save, shuffle</div>
+          <h2>Your coastside library.</h2>
+          <p>Browse tracks from <code>/tracks</code>, build custom mixes, queue songs, and play everything in a polished glass UI that feels at home on iPhone, desktop, and tablets.</p>
+        </div>
+        <div>
+          <div class="hero-actions">
+            <button class="btn primary" id="playAllBtn">Play all</button>
+            <button class="btn" id="shuffleBtn">Shuffle</button>
+            <button class="btn" id="newMixBtn">New mix</button>
+            <button class="btn" id="queueClearBtn">Clear queue</button>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong id="trackCountStat">0</strong>
+              <span class="muted">Tracks found</span>
+            </div>
+            <div class="stat">
+              <strong id="mixCountStat">0</strong>
+              <span class="muted">Saved mixes</span>
+            </div>
+            <div class="stat">
+              <strong id="ownerStat">Guest</strong>
+              <span class="muted">Current mode</span>
+            </div>
           </div>
         </div>
+      </article>
 
-        <div>
-          <div class="group-label">Menu</div>
-          <div class="nav">
-            <button class="nav-btn active" type="button">Browse</button>
-            <button class="nav-btn" type="button" id="refreshBrowseBtn">Refresh library</button>
+      <div class="side-stack">
+        <article class="side-card glass">
+          <h3>Session</h3>
+          <div id="userCard" class="muted">Not signed in</div>
+          <div class="footer-note">Owner edit mode unlocks automatically for <strong>tylern662@gmail.com</strong>.</div>
+        </article>
+
+        <article class="side-card glass">
+          <h3>Library source</h3>
+          <div class="muted" id="sourceStatus">Looking for <code>/tracks/index.json</code> first, then common audio filenames if available.</div>
+          <div class="footer-note">For best results, add a <code>/tracks/index.json</code> manifest in your repo root and optional cover art paths.</div>
+        </article>
+      </div>
+    </section>
+
+    <main class="layout">
+      <div class="main-stack">
+        <section class="section-card glass">
+          <div class="section-head">
+            <div>
+              <h3>Tracks</h3>
+              <div class="muted">Search, sort, tap, queue, and save.</div>
+            </div>
+            <div class="filters">
+              <button class="btn" id="browseAllBtn">All tracks</button>
+              <button class="btn" id="browseMixBtn">Selected mix</button>
+            </div>
           </div>
-        </div>
+          <div class="search-row">
+            <input class="input" id="searchInput" placeholder="Search title, artist, album, tags..." />
+            <select class="select" id="sortSelect">
+              <option value="title">Sort: Title</option>
+              <option value="artist">Sort: Artist</option>
+              <option value="album">Sort: Album</option>
+              <option value="recent">Sort: Recently added</option>
+            </select>
+          </div>
+          <div class="track-grid" id="trackGrid"></div>
+        </section>
+      </div>
 
-        <div>
-          <div class="group-label">Your mixes</div>
+      <aside class="right-stack">
+        <section class="section-card glass">
+          <div class="section-head">
+            <div>
+              <h3>Queue</h3>
+              <div class="muted">Up next in CaliMix.</div>
+            </div>
+          </div>
+          <div class="mini-list" id="queueList"></div>
+        </section>
+
+        <section class="section-card glass">
+          <div class="section-head">
+            <div>
+              <h3>Mixes</h3>
+              <div class="muted">Saved locally in this browser.</div>
+            </div>
+          </div>
           <div class="mix-list" id="mixList"></div>
-          <div style="height:8px"></div>
-          <input id="newMixInput" class="input" placeholder="New mix name" />
-          <div style="height:8px"></div>
-          <button id="createMixBtn" class="btn primary" type="button">Create mix</button>
-        </div>
-
-        <div>
-          <div class="group-label">Account</div>
-          <div class="auth-box">
-            <input id="emailInput" class="input" type="email" placeholder="Email" autocomplete="email" />
-            <input id="passwordInput" class="input" type="password" placeholder="Password" autocomplete="current-password" />
-            <div class="auth-actions">
-              <button id="loginBtn" class="btn primary" type="button">Log in</button>
-              <button id="signupBtn" class="btn" type="button">Sign up</button>
-              <button id="guestBtn" class="btn ghost" type="button">Continue as guest</button>
-              <button id="logoutBtn" class="btn danger" type="button" style="display:none;">Log out</button>
-            </div>
-            <div id="userMeta" class="meta">Not signed in.</div>
-            <div id="authStatus" class="status"></div>
-          </div>
-        </div>
+        </section>
       </aside>
-
-      <section class="main glass">
-        <div class="topline">
-          <div class="headline">
-            <h2>Browse</h2>
-            <p>MP3s streamed from your Backblaze B2 bucket root.</p>
-          </div>
-          <div class="pill" id="statsPill">0 tracks</div>
-        </div>
-
-        <div class="hero">
-          <div class="cover">♫</div>
-          <div class="hero-copy">
-            <div class="eyebrow">Now queued</div>
-            <h3 id="heroTitle">Select a song</h3>
-            <p id="heroSub">Log in or continue as guest, then browse tracks and save them into custom mixes.</p>
-          </div>
-        </div>
-
-        <div class="browse">
-          <div class="browse-head">
-            <div class="search-wrap">
-              <input id="searchInput" class="search" type="text" placeholder="Search tracks" />
-              <button id="reloadBtn" class="btn" type="button">Reload</button>
-            </div>
-            <div class="pill" id="libraryMessage">Loading library…</div>
-          </div>
-
-          <div id="activeMixBanner" class="meta">Active mix: <strong>All tracks</strong></div>
-
-          <div id="trackList" class="track-list"></div>
-        </div>
-
-        <div class="playerbar glass">
-          <div class="np">
-            <div class="np-art">♪</div>
-            <div style="min-width:0;">
-              <h4 id="nowTitle">Nothing playing</h4>
-              <p id="nowMeta">Choose a track to start streaming.</p>
-            </div>
-          </div>
-
-          <div class="transport">
-            <div class="transport-buttons">
-              <button id="prevBtn" class="btn circle" type="button">⏮</button>
-              <button id="playBtn" class="btn circle play" type="button">▶</button>
-              <button id="nextBtn" class="btn circle" type="button">⏭</button>
-            </div>
-            <div class="seek-row">
-              <span id="currentTime">0:00</span>
-              <input id="seekBar" type="range" min="0" max="100" step="0.1" value="0" />
-              <span id="durationTime">0:00</span>
-            </div>
-            <audio id="audio"></audio>
-          </div>
-
-          <div class="right-controls">
-            <div class="toggle-row">
-              <button id="shuffleBtn" class="mini-btn" type="button">Shuffle off</button>
-              <button id="repeatBtn" class="mini-btn" type="button">Repeat off</button>
-            </div>
-            <div class="volume-row">
-              <span>Vol</span>
-              <input id="volumeBar" type="range" min="0" max="1" step="0.01" value="0.85" />
-              <span id="volumeValue">85%</span>
-            </div>
-            <div class="footer-copy">Firebase handles sign-up/login. Track browsing expects a Vercel <code>/api/tracks</code> route that returns root-bucket MP3s using your existing B2 environment variables.</div>
-          </div>
-        </div>
-      </section>
-    </div>
+    </main>
   </div>
 
+  <div class="player-shell">
+    <section class="player glass" aria-label="Music player">
+      <div class="now-playing" id="nowPlayingWrap">
+        <div class="placeholder-art">🌴</div>
+        <div>
+          <div class="np-title" id="npTitle">Nothing playing</div>
+          <div class="np-sub" id="npSub">Pick a track to start</div>
+        </div>
+      </div>
+
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="icon-btn" id="prevBtn" title="Previous">⏮</button>
+          <button class="icon-btn" id="toggleBtn" title="Play / Pause">▶</button>
+          <button class="icon-btn" id="nextBtn" title="Next">⏭</button>
+        </div>
+        <div class="seek-row">
+          <span id="currentTimeLabel">0:00</span>
+          <input type="range" id="seekBar" min="0" max="100" value="0" />
+          <span id="durationLabel">0:00</span>
+        </div>
+      </div>
+
+      <div class="player-right">
+        <div class="inline-group">
+          <button class="btn" id="queueCurrentBtn">Queue current</button>
+          <button class="btn" id="saveCurrentBtn">Save to mix</button>
+        </div>
+        <div class="inline-group" style="min-width:220px; width:100%;">
+          <label class="sr-only" for="volumeBar">Volume</label>
+          <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.9" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <audio id="audio"></audio>
+
+  <dialog class="sheet" id="editDialog">
+    <div class="sheet-card glass">
+      <div class="sheet-head">
+        <div>
+          <h3>Edit track</h3>
+          <div class="muted">Owner-only metadata editor.</div>
+        </div>
+        <button class="icon-btn" data-close-dialog="editDialog">✕</button>
+      </div>
+      <form id="editForm" class="form-grid">
+        <input type="hidden" id="editId" />
+        <label>
+          <div class="muted">Title</div>
+          <input class="input" id="editTitle" required />
+        </label>
+        <label>
+          <div class="muted">Artist</div>
+          <input class="input" id="editArtist" />
+        </label>
+        <label>
+          <div class="muted">Album</div>
+          <input class="input" id="editAlbum" />
+        </label>
+        <label>
+          <div class="muted">Genre</div>
+          <input class="input" id="editGenre" />
+        </label>
+        <label class="full">
+          <div class="muted">Art URL</div>
+          <input class="input" id="editArt" placeholder="/tracks/art/cover.jpg or https://..." />
+        </label>
+        <label class="full">
+          <div class="muted">Audio URL</div>
+          <input class="input" id="editSrc" placeholder="/tracks/file.mp3" />
+        </label>
+        <label class="full">
+          <div class="muted">Tags</div>
+          <input class="input" id="editTags" placeholder="sunset, west coast, drive" />
+        </label>
+        <label class="full">
+          <div class="muted">Description</div>
+          <textarea id="editDescription" placeholder="Optional notes"></textarea>
+        </label>
+        <div class="full" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+          <button type="button" class="btn danger" id="deleteMetaBtn">Reset override</button>
+          <button type="submit" class="btn primary">Save metadata</button>
+        </div>
+        <div class="full helper">Edits are saved to <code>localStorage</code> in the browser. To persist edits for all users, replace the save logic with Firestore or write changes back to your track manifest.</div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="sheet" id="mixDialog">
+    <div class="sheet-card glass">
+      <div class="sheet-head">
+        <div>
+          <h3>Create mix</h3>
+          <div class="muted">Name a custom mix and start collecting tracks.</div>
+        </div>
+        <button class="icon-btn" data-close-dialog="mixDialog">✕</button>
+      </div>
+      <form id="mixForm" class="form-grid">
+        <label class="full">
+          <div class="muted">Mix name</div>
+          <input class="input" id="mixNameInput" placeholder="Pacific Nights" required />
+        </label>
+        <label class="full">
+          <div class="muted">Description</div>
+          <textarea id="mixDescriptionInput" placeholder="Optional vibe notes"></textarea>
+        </label>
+        <div class="full" style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="submit" class="btn primary">Create mix</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
     import {
       getAuth,
       GoogleAuthProvider,
       signInWithPopup,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signInAnonymously,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+      signOut,
+      onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao",
-      authDomain: "calimix.firebaseapp.com",
-      projectId: "calimix",
-      storageBucket: "calimix.firebasestorage.app",
-      messagingSenderId: "375041264716",
-      appId: "1:375041264716:web:a4471905ba0ec230e8b8e9",
-      measurementId: "G-0YWBGP7FFX"
+      apiKey: 'AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao',
+      authDomain: 'calimix.firebaseapp.com',
+      projectId: 'calimix',
+      storageBucket: 'calimix.firebasestorage.app',
+      messagingSenderId: '375041264716',
+      appId: '1:375041264716:web:a4471905ba0ec230e8b8e9',
+      measurementId: 'G-0YWBGP7FFX'
     };
 
-    const TRACKS_API_URL = "/api/tracks";
+    const OWNER_EMAIL = 'tylern662@gmail.com';
+    const TRACK_MANIFEST_PATH = '/tracks/index.json';
+    const LS_KEYS = {
+      mixes: 'calimix_mixes_v1',
+      overrides: 'calimix_track_overrides_v1',
+      queue: 'calimix_queue_v1',
+      volume: 'calimix_volume_v1',
+      selectedMix: 'calimix_selected_mix_v1'
+    };
+
+    const state = {
+      user: null,
+      isOwner: false,
+      tracks: [],
+      filteredTracks: [],
+      queue: [],
+      mixes: loadJSON(LS_KEYS.mixes, []),
+      selectedMixId: loadJSON(LS_KEYS.selectedMix, null),
+      trackOverrides: loadJSON(LS_KEYS.overrides, {}),
+      currentTrackId: null,
+      currentIndex: -1,
+      browseMode: 'all',
+      sortBy: 'title',
+      search: '',
+      loading: false
+    };
+
+    const el = {
+      audio: document.getElementById('audio'),
+      trackGrid: document.getElementById('trackGrid'),
+      queueList: document.getElementById('queueList'),
+      mixList: document.getElementById('mixList'),
+      searchInput: document.getElementById('searchInput'),
+      sortSelect: document.getElementById('sortSelect'),
+      signinBtn: document.getElementById('signinBtn'),
+      signoutBtn: document.getElementById('signoutBtn'),
+      refreshBtn: document.getElementById('refreshBtn'),
+      playAllBtn: document.getElementById('playAllBtn'),
+      shuffleBtn: document.getElementById('shuffleBtn'),
+      newMixBtn: document.getElementById('newMixBtn'),
+      queueClearBtn: document.getElementById('queueClearBtn'),
+      browseAllBtn: document.getElementById('browseAllBtn'),
+      browseMixBtn: document.getElementById('browseMixBtn'),
+      trackCountStat: document.getElementById('trackCountStat'),
+      mixCountStat: document.getElementById('mixCountStat'),
+      ownerStat: document.getElementById('ownerStat'),
+      userCard: document.getElementById('userCard'),
+      sourceStatus: document.getElementById('sourceStatus'),
+      npTitle: document.getElementById('npTitle'),
+      npSub: document.getElementById('npSub'),
+      nowPlayingWrap: document.getElementById('nowPlayingWrap'),
+      prevBtn: document.getElementById('prevBtn'),
+      toggleBtn: document.getElementById('toggleBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      seekBar: document.getElementById('seekBar'),
+      currentTimeLabel: document.getElementById('currentTimeLabel'),
+      durationLabel: document.getElementById('durationLabel'),
+      volumeBar: document.getElementById('volumeBar'),
+      queueCurrentBtn: document.getElementById('queueCurrentBtn'),
+      saveCurrentBtn: document.getElementById('saveCurrentBtn'),
+      editDialog: document.getElementById('editDialog'),
+      mixDialog: document.getElementById('mixDialog'),
+      editForm: document.getElementById('editForm'),
+      editId: document.getElementById('editId'),
+      editTitle: document.getElementById('editTitle'),
+      editArtist: document.getElementById('editArtist'),
+      editAlbum: document.getElementById('editAlbum'),
+      editGenre: document.getElementById('editGenre'),
+      editArt: document.getElementById('editArt'),
+      editSrc: document.getElementById('editSrc'),
+      editTags: document.getElementById('editTags'),
+      editDescription: document.getElementById('editDescription'),
+      deleteMetaBtn: document.getElementById('deleteMetaBtn'),
+      mixForm: document.getElementById('mixForm'),
+      mixNameInput: document.getElementById('mixNameInput'),
+      mixDescriptionInput: document.getElementById('mixDescriptionInput')
+    };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
 
-    const state = {
-      tracks: [],
-      visibleTracks: [],
-      currentTrackId: null,
-      isPlaying: false,
-      isShuffle: false,
-      isRepeat: false,
-      activeMixId: "all",
-      mixes: [],
-      currentUser: null,
-      query: ""
-    };
+    function loadJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    }
 
-    const els = {
-      trackList: document.getElementById("trackList"),
-      statsPill: document.getElementById("statsPill"),
-      libraryMessage: document.getElementById("libraryMessage"),
-      heroTitle: document.getElementById("heroTitle"),
-      heroSub: document.getElementById("heroSub"),
-      nowTitle: document.getElementById("nowTitle"),
-      nowMeta: document.getElementById("nowMeta"),
-      activeMixBanner: document.getElementById("activeMixBanner"),
-      searchInput: document.getElementById("searchInput"),
-      reloadBtn: document.getElementById("reloadBtn"),
-      refreshBrowseBtn: document.getElementById("refreshBrowseBtn"),
-      createMixBtn: document.getElementById("createMixBtn"),
-      newMixInput: document.getElementById("newMixInput"),
-      mixList: document.getElementById("mixList"),
-      emailInput: document.getElementById("emailInput"),
-      passwordInput: document.getElementById("passwordInput"),
-      loginBtn: document.getElementById("loginBtn"),
-      signupBtn: document.getElementById("signupBtn"),
-      guestBtn: document.getElementById("guestBtn"),
-      logoutBtn: document.getElementById("logoutBtn"),
-      userMeta: document.getElementById("userMeta"),
-      authStatus: document.getElementById("authStatus"),
-      audio: document.getElementById("audio"),
-      playBtn: document.getElementById("playBtn"),
-      prevBtn: document.getElementById("prevBtn"),
-      nextBtn: document.getElementById("nextBtn"),
-      shuffleBtn: document.getElementById("shuffleBtn"),
-      repeatBtn: document.getElementById("repeatBtn"),
-      seekBar: document.getElementById("seekBar"),
-      currentTime: document.getElementById("currentTime"),
-      durationTime: document.getElementById("durationTime"),
-      volumeBar: document.getElementById("volumeBar"),
-      volumeValue: document.getElementById("volumeValue")
-    };
+    function saveJSON(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
 
-    function setAuthStatus(message = "", type = "") {
-      els.authStatus.className = `status ${type}`.trim();
-      els.authStatus.textContent = message;
+    function uid() {
+      return Math.random().toString(36).slice(2, 11);
+    }
+
+    function slugify(value = '') {
+      return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     }
 
     function formatTime(seconds) {
-      if (!Number.isFinite(seconds)) return "0:00";
-      const m = Math.floor(seconds / 60);
-      const s = Math.floor(seconds % 60).toString().padStart(2, "0");
-      return `${m}:${s}`;
+      if (!Number.isFinite(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
     }
 
-    function formatBytes(bytes) {
-      if (!bytes) return "—";
-      const units = ["B", "KB", "MB", "GB"];
-      let value = bytes;
-      let unit = 0;
-      while (value >= 1024 && unit < units.length - 1) {
-        value /= 1024;
-        unit++;
-      }
-      return `${value.toFixed(value >= 10 || unit === 0 ? 0 : 1)} ${units[unit]}`;
+    function escapeHTML(str = '') {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
     }
 
-    function trackTitleFromKey(key) {
-      return decodeURIComponent(String(key || "Untitled").split("/").pop().replace(/\.mp3$/i, ""))
-        .replace(/[-_]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function getUserStorageKey() {
-      const user = state.currentUser;
-      if (!user) return "calimix_mixes_signed_out";
-      return `calimix_mixes_${user.uid}`;
-    }
-
-    function getCurrentTrack() {
-      return state.tracks.find((track) => track.id === state.currentTrackId) || null;
-    }
-
-    function getActiveMix() {
-      if (state.activeMixId === "all") return null;
-      return state.mixes.find((mix) => mix.id === state.activeMixId) || null;
-    }
-
-    function saveMixes() {
-      localStorage.setItem(getUserStorageKey(), JSON.stringify(state.mixes));
-    }
-
-    function loadMixes() {
-      try {
-        state.mixes = JSON.parse(localStorage.getItem(getUserStorageKey()) || "[]");
-      } catch {
-        state.mixes = [];
-      }
-      if (state.activeMixId !== "all" && !state.mixes.some((mix) => mix.id === state.activeMixId)) {
-        state.activeMixId = "all";
-      }
-      renderMixes();
-    }
-
-    function createMix(name) {
-      const trimmed = String(name || "").trim();
-      if (!trimmed) return;
-      const exists = state.mixes.some((mix) => mix.name.toLowerCase() === trimmed.toLowerCase());
-      if (exists) {
-        setAuthStatus("That mix already exists.", "err");
-        return;
-      }
-      const mix = {
-        id: `mix_${crypto.randomUUID()}`,
-        name: trimmed,
-        trackIds: []
+    function normalizeTrack(raw, index = 0) {
+      const src = raw.src || raw.url || raw.file || raw.path || '';
+      const id = raw.id || slugify(raw.title || raw.name || src || `track-${index}`) || `track-${index}`;
+      const inferredTitle = raw.title || raw.name || decodeURIComponent(src.split('/').pop() || `Track ${index + 1}`)
+        .replace(/\.[a-z0-9]+$/i, '')
+        .replace(/[_-]+/g, ' ');
+      return {
+        id,
+        title: inferredTitle,
+        artist: raw.artist || '',
+        album: raw.album || '',
+        genre: raw.genre || '',
+        art: raw.art || raw.cover || raw.image || '',
+        src,
+        tags: Array.isArray(raw.tags) ? raw.tags : String(raw.tags || '').split(',').map(s => s.trim()).filter(Boolean),
+        description: raw.description || '',
+        addedAt: raw.addedAt || raw.createdAt || Date.now() - index,
+        duration: raw.duration || null
       };
-      state.mixes.unshift(mix);
-      state.activeMixId = mix.id;
-      saveMixes();
-      renderMixes();
-      applyFilters();
-      els.newMixInput.value = "";
     }
 
-    function deleteMix(mixId) {
-      state.mixes = state.mixes.filter((mix) => mix.id !== mixId);
-      if (state.activeMixId === mixId) state.activeMixId = "all";
-      saveMixes();
-      renderMixes();
-      applyFilters();
+    function getTrackById(id) {
+      return state.tracks.find(t => t.id === id) || null;
     }
 
-    function addTrackToMix(trackId, mixId) {
-      const mix = state.mixes.find((m) => m.id === mixId);
-      if (!mix) return;
-      if (!mix.trackIds.includes(trackId)) {
-        mix.trackIds.push(trackId);
-        saveMixes();
-        renderMixes();
-        applyFilters();
-      }
-    }
-
-    function removeTrackFromActiveMix(trackId) {
-      const mix = getActiveMix();
-      if (!mix) return;
-      mix.trackIds = mix.trackIds.filter((id) => id !== trackId);
-      saveMixes();
-      applyFilters();
-      renderMixes();
-    }
-
-    function setActiveMix(mixId) {
-      state.activeMixId = mixId;
-      renderMixes();
-      applyFilters();
-    }
-
-    function renderMixes() {
-      els.mixList.innerHTML = "";
-
-      const allBtn = document.createElement("button");
-      allBtn.type = "button";
-      allBtn.className = `mix-btn ${state.activeMixId === "all" ? "active" : ""}`;
-      allBtn.textContent = `All tracks (${state.tracks.length})`;
-      allBtn.addEventListener("click", () => setActiveMix("all"));
-      els.mixList.appendChild(allBtn);
-
-      state.mixes.forEach((mix) => {
-        const wrap = document.createElement("div");
-        wrap.style.display = "grid";
-        wrap.style.gridTemplateColumns = "1fr auto";
-        wrap.style.gap = "8px";
-
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = `mix-btn ${state.activeMixId === mix.id ? "active" : ""}`;
-        btn.textContent = `${mix.name} (${mix.trackIds.length})`;
-        btn.addEventListener("click", () => setActiveMix(mix.id));
-
-        const del = document.createElement("button");
-        del.type = "button";
-        del.className = "mini-btn";
-        del.textContent = "✕";
-        del.title = `Delete ${mix.name}`;
-        del.addEventListener("click", (e) => {
-          e.stopPropagation();
-          deleteMix(mix.id);
-        });
-
-        wrap.appendChild(btn);
-        wrap.appendChild(del);
-        els.mixList.appendChild(wrap);
-      });
-    }
-
-    function applyFilters() {
-      const q = state.query.trim().toLowerCase();
-      const activeMix = getActiveMix();
-      let tracks = [...state.tracks];
-
-      if (activeMix) {
-        const idSet = new Set(activeMix.trackIds);
-        tracks = tracks.filter((track) => idSet.has(track.id));
-      }
-
-      if (q) {
-        tracks = tracks.filter((track) => track.title.toLowerCase().includes(q) || track.key.toLowerCase().includes(q));
-      }
-
-      state.visibleTracks = tracks;
-      renderTrackList();
-      const activeLabel = activeMix ? activeMix.name : "All tracks";
-      els.activeMixBanner.innerHTML = `Active mix: <strong>${escapeHtml(activeLabel)}</strong>`;
-      els.statsPill.textContent = `${state.visibleTracks.length} tracks`;
-    }
-
-    function renderTrackList() {
-      els.trackList.innerHTML = "";
-
-      if (!state.tracks.length) {
-        els.trackList.innerHTML = '<div class="empty">No tracks loaded yet. Your Vercel <code>/api/tracks</code> route should return root-level MP3s from Backblaze B2.</div>';
-        return;
-      }
-
-      if (!state.visibleTracks.length) {
-        els.trackList.innerHTML = '<div class="empty">No tracks match this view.</div>';
-        return;
-      }
-
-      const activeMix = getActiveMix();
-
-      state.visibleTracks.forEach((track, index) => {
-        const row = document.createElement("div");
-        row.className = `track ${track.id === state.currentTrackId ? "active" : ""}`;
-
-        const mixMenu = state.mixes.map((mix) => {
-          const option = document.createElement("button");
-          option.type = "button";
-          option.className = "mini-btn";
-          option.textContent = `+ ${mix.name}`;
-          option.addEventListener("click", (e) => {
-            e.stopPropagation();
-            addTrackToMix(track.id, mix.id);
-          });
-          return option;
-        });
-
-        const left = document.createElement("div");
-        left.className = "track-num";
-        left.textContent = String(index + 1).padStart(2, "0");
-
-        const center = document.createElement("div");
-        center.innerHTML = `
-          <p class="track-title">${escapeHtml(track.title)}</p>
-          <p class="track-sub">${escapeHtml(formatBytes(track.size))} · ${escapeHtml(track.key)}</p>
-        `;
-
-        const actions = document.createElement("div");
-        actions.className = "track-actions";
-
-        const play = document.createElement("button");
-        play.type = "button";
-        play.className = "mini-btn";
-        play.textContent = track.id === state.currentTrackId && state.isPlaying ? "Pause" : "Play";
-        play.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (track.id === state.currentTrackId) {
-            state.isPlaying ? pauseCurrent() : playCurrent();
-          } else {
-            loadTrack(track.id, true);
-          }
-        });
-        actions.appendChild(play);
-
-        if (activeMix) {
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "mini-btn";
-          remove.textContent = "Remove";
-          remove.addEventListener("click", (e) => {
-            e.stopPropagation();
-            removeTrackFromActiveMix(track.id);
-          });
-          actions.appendChild(remove);
-        } else if (state.mixes.length) {
-          mixMenu.forEach((btn) => actions.appendChild(btn));
-        }
-
-        row.appendChild(left);
-        row.appendChild(center);
-        row.appendChild(actions);
-        row.addEventListener("click", () => loadTrack(track.id, true));
-        els.trackList.appendChild(row);
-      });
-    }
-
-    function updateNowPlaying() {
-      const track = getCurrentTrack();
-      els.playBtn.textContent = state.isPlaying ? "❚❚" : "▶";
-      els.shuffleBtn.textContent = state.isShuffle ? "Shuffle on" : "Shuffle off";
-      els.repeatBtn.textContent = state.isRepeat ? "Repeat on" : "Repeat off";
-
-      if (!track) {
-        els.heroTitle.textContent = "Select a song";
-        els.heroSub.textContent = "Log in or continue as guest, then browse tracks and save them into custom mixes.";
-        els.nowTitle.textContent = "Nothing playing";
-        els.nowMeta.textContent = "Choose a track to start streaming.";
-        els.currentTime.textContent = "0:00";
-        els.durationTime.textContent = "0:00";
-        els.seekBar.value = 0;
-        return;
-      }
-
-      const subtitle = `${formatBytes(track.size)} · ${track.lastModified ? new Date(track.lastModified).toLocaleDateString() : "Cloud stream"}`;
-      els.heroTitle.textContent = track.title;
-      els.heroSub.textContent = subtitle;
-      els.nowTitle.textContent = track.title;
-      els.nowMeta.textContent = subtitle;
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    function applyOverrides(track) {
+      const override = state.trackOverrides[track.id] || {};
+      return {
+        ...track,
+        ...override,
+        tags: Array.isArray(override.tags)
+          ? override.tags
+          : (override.tags ? String(override.tags).split(',').map(s => s.trim()).filter(Boolean) : track.tags)
+      };
     }
 
     async function loadTracks() {
-      els.libraryMessage.textContent = "Loading library…";
+      state.loading = true;
+      renderSourceStatus('Loading track manifest...');
       try {
-        const res = await fetch(TRACKS_API_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error(`Track fetch failed (${res.status})`);
-        const data = await res.json();
-        const raw = Array.isArray(data.tracks) ? data.tracks : [];
-
-        state.tracks = raw
-          .filter((track) => String(track.key || "").toLowerCase().endsWith(".mp3") || String(track.url || "").toLowerCase().includes(".mp3"))
-          .map((track, index) => ({
-            id: track.id || track.key || `track_${index}`,
-            key: track.key || `track_${index}.mp3`,
-            title: track.title || trackTitleFromKey(track.key || `track_${index}.mp3`),
-            url: track.url,
-            size: Number(track.size || 0),
-            lastModified: track.lastModified || null
-          }))
-          .filter((track) => Boolean(track.url))
-          .sort((a, b) => a.title.localeCompare(b.title));
-
-        if (!state.tracks.some((track) => track.id === state.currentTrackId)) {
-          state.currentTrackId = null;
-          els.audio.pause();
-          els.audio.removeAttribute("src");
-          els.audio.load();
-          state.isPlaying = false;
-        }
-
-        renderMixes();
+        const response = await fetch(TRACK_MANIFEST_PATH, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Manifest request failed (${response.status})`);
+        const manifest = await response.json();
+        const items = Array.isArray(manifest) ? manifest : (manifest.tracks || []);
+        state.tracks = items
+          .map((item, i) => normalizeTrack(item, i))
+          .filter(track => track.src);
+        renderSourceStatus(`Loaded ${state.tracks.length} tracks from ${TRACK_MANIFEST_PATH}`);
+      } catch (err) {
+        console.warn('Manifest load failed:', err);
+        state.tracks = [
+          normalizeTrack({
+            id: 'sample-track',
+            title: 'Drop files into /tracks/index.json',
+            artist: 'CaliMix Setup',
+            album: 'Starter Library',
+            genre: 'Guide',
+            art: '',
+            src: '',
+            description: 'Create /tracks/index.json to populate your library.',
+            tags: ['setup', 'sample']
+          })
+        ].filter(t => t.src);
+        renderSourceStatus('No manifest found. Add /tracks/index.json in the repo root to load your library.');
+      } finally {
+        state.loading = false;
+        syncQueueFromStorage();
         applyFilters();
-        updateNowPlaying();
-        els.libraryMessage.textContent = state.tracks.length ? `Loaded ${state.tracks.length} tracks` : "No MP3s returned";
-      } catch (error) {
-        console.error(error);
-        state.tracks = [];
-        state.visibleTracks = [];
-        renderMixes();
-        renderTrackList();
-        updateNowPlaying();
-        els.libraryMessage.textContent = "Failed to load tracks";
+        renderAll();
       }
     }
 
-    function getActiveSequence() {
-      const source = state.visibleTracks.length ? state.visibleTracks : state.tracks;
-      return source;
+    function renderSourceStatus(message) {
+      el.sourceStatus.innerHTML = message;
     }
 
-    function loadTrack(trackId, autoplay = false) {
-      const track = state.tracks.find((item) => item.id === trackId);
-      if (!track || !track.url) return;
+    function syncQueueFromStorage() {
+      const storedQueue = loadJSON(LS_KEYS.queue, []);
+      state.queue = storedQueue.filter(id => getTrackById(id));
+    }
 
-      state.currentTrackId = track.id;
-      els.audio.src = track.url;
-      els.audio.load();
-      updateNowPlaying();
-      renderTrackList();
+    function persistQueue() {
+      saveJSON(LS_KEYS.queue, state.queue);
+    }
 
-      if (autoplay) {
-        els.audio.play().catch((err) => console.error(err));
+    function persistMixes() {
+      saveJSON(LS_KEYS.mixes, state.mixes);
+      saveJSON(LS_KEYS.selectedMix, state.selectedMixId);
+    }
+
+    function persistOverrides() {
+      saveJSON(LS_KEYS.overrides, state.trackOverrides);
+    }
+
+    function applyFilters() {
+      let tracks = state.tracks.map(applyOverrides);
+
+      if (state.browseMode === 'mix' && state.selectedMixId) {
+        const mix = state.mixes.find(m => m.id === state.selectedMixId);
+        const ids = new Set(mix?.trackIds || []);
+        tracks = tracks.filter(track => ids.has(track.id));
       }
+
+      const q = state.search.trim().toLowerCase();
+      if (q) {
+        tracks = tracks.filter(track => {
+          const hay = [track.title, track.artist, track.album, track.genre, track.description, ...(track.tags || [])]
+            .join(' ')
+            .toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      tracks.sort((a, b) => {
+        if (state.sortBy === 'recent') return (b.addedAt || 0) - (a.addedAt || 0);
+        const av = String(a[state.sortBy] || '').toLowerCase();
+        const bv = String(b[state.sortBy] || '').toLowerCase();
+        return av.localeCompare(bv);
+      });
+
+      state.filteredTracks = tracks;
     }
 
-    function playCurrent() {
-      const track = getCurrentTrack();
-      if (!track) {
-        const first = getActiveSequence()[0] || state.tracks[0];
-        if (first) loadTrack(first.id, true);
+    function currentTrack() {
+      return state.currentTrackId ? applyOverrides(getTrackById(state.currentTrackId) || {}) : null;
+    }
+
+    function renderAll() {
+      el.trackCountStat.textContent = String(state.tracks.length);
+      el.mixCountStat.textContent = String(state.mixes.length);
+      el.ownerStat.textContent = state.isOwner ? 'Owner' : (state.user ? 'Member' : 'Guest');
+      renderUser();
+      renderTracks();
+      renderQueue();
+      renderMixes();
+      renderPlayer();
+    }
+
+    function renderUser() {
+      if (!state.user) {
+        el.userCard.innerHTML = '<div class="muted">Not signed in</div>';
+        el.signinBtn.hidden = false;
+        el.signoutBtn.hidden = true;
         return;
       }
-      els.audio.play().catch((err) => console.error(err));
+      const ownerBadge = state.isOwner ? ' · Owner edit mode enabled' : '';
+      el.userCard.innerHTML = `
+        <div><strong>${escapeHTML(state.user.displayName || 'Signed in')}</strong></div>
+        <div class="muted">${escapeHTML(state.user.email || '')}${ownerBadge}</div>
+      `;
+      el.signinBtn.hidden = true;
+      el.signoutBtn.hidden = false;
     }
 
-    function pauseCurrent() {
-      els.audio.pause();
-    }
-
-    function moveTrack(direction) {
-      const sequence = getActiveSequence();
-      if (!sequence.length) return;
-      const currentIndex = Math.max(0, sequence.findIndex((track) => track.id === state.currentTrackId));
-
-      if (state.isShuffle && sequence.length > 1) {
-        let nextIndex = currentIndex;
-        while (nextIndex === currentIndex) {
-          nextIndex = Math.floor(Math.random() * sequence.length);
-        }
-        loadTrack(sequence[nextIndex].id, true);
-        return;
-      }
-
-      let nextIndex = currentIndex + direction;
-      if (nextIndex < 0) nextIndex = sequence.length - 1;
-      if (nextIndex >= sequence.length) nextIndex = 0;
-      loadTrack(sequence[nextIndex].id, true);
-    }
-
-    function updateUserUI(user) {
-      state.currentUser = user;
-      loadMixes();
+    function renderTracks() {
       applyFilters();
-
-      if (!user) {
-        els.userMeta.textContent = "Not signed in.";
-        els.logoutBtn.style.display = "none";
+      if (!state.filteredTracks.length) {
+        el.trackGrid.innerHTML = '<div class="empty">No tracks match your current view.</div>';
         return;
       }
 
-      const label = user.isAnonymous ? "Guest session" : (user.email || user.displayName || "Signed in");
-      els.userMeta.textContent = `${label} · mixes saved locally in this browser`;
-      els.logoutBtn.style.display = "block";
-      setAuthStatus(`Welcome ${label}.`, "ok");
+      el.trackGrid.innerHTML = state.filteredTracks.map(track => {
+        const isActive = track.id === state.currentTrackId;
+        const canEdit = state.isOwner;
+        return `
+          <article class="track-card ${isActive ? 'active' : ''}" data-track-id="${escapeHTML(track.id)}">
+            <div class="art-wrap">
+              ${track.art
+                ? `<img src="${escapeHTML(track.art)}" alt="${escapeHTML(track.title)} art" loading="lazy" />`
+                : `<div class="placeholder-art">🌴</div>`}
+              <div class="badge">${escapeHTML(track.genre || 'Track')}</div>
+            </div>
+            <div class="track-body">
+              <div>
+                <div class="track-title">${escapeHTML(track.title || 'Untitled')}</div>
+                <div class="track-meta">${escapeHTML(track.artist || 'Unknown artist')}${track.album ? ` · ${escapeHTML(track.album)}` : ''}</div>
+              </div>
+              <div class="track-actions">
+                <button class="pill" data-action="play" data-track-id="${escapeHTML(track.id)}">Play</button>
+                <button class="pill" data-action="queue" data-track-id="${escapeHTML(track.id)}">Queue</button>
+                <button class="pill" data-action="mix" data-track-id="${escapeHTML(track.id)}">Save</button>
+                ${canEdit ? `<button class="pill" data-action="edit" data-track-id="${escapeHTML(track.id)}">Edit</button>` : ''}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
     }
 
-    els.signupBtn.addEventListener("click", async () => {
-      const email = els.emailInput.value.trim();
-      const password = els.passwordInput.value;
-      if (!email || !password) {
-        setAuthStatus("Enter an email and password to sign up.", "err");
+    function renderQueue() {
+      const queueTracks = state.queue.map(getTrackById).filter(Boolean).map(applyOverrides);
+      if (!queueTracks.length) {
+        el.queueList.innerHTML = '<div class="empty">Your queue is empty.</div>';
         return;
       }
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        console.error(error);
-        setAuthStatus(error.message || "Sign-up failed.", "err");
-      }
-    });
+      el.queueList.innerHTML = queueTracks.map((track, idx) => `
+        <div class="list-item">
+          ${track.art
+            ? `<img class="list-thumb" src="${escapeHTML(track.art)}" alt="" />`
+            : `<div class="list-thumb placeholder-art">🎵</div>`}
+          <div class="list-copy">
+            <div class="list-title">${escapeHTML(track.title)}</div>
+            <div class="list-sub">${escapeHTML(track.artist || 'Unknown artist')}</div>
+          </div>
+          <div class="inline-group">
+            <button class="icon-btn" title="Play now" data-queue-play="${escapeHTML(track.id)}">▶</button>
+            <button class="icon-btn" title="Remove" data-queue-remove="${idx}">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
 
-    els.loginBtn.addEventListener("click", async () => {
-      const email = els.emailInput.value.trim();
-      const password = els.passwordInput.value;
-      if (!email || !password) {
-        setAuthStatus("Enter your email and password.", "err");
+    function renderMixes() {
+      if (!state.mixes.length) {
+        el.mixList.innerHTML = '<div class="empty">No mixes yet. Create one and start saving tracks.</div>';
         return;
       }
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        console.error(error);
-        setAuthStatus(error.message || "Login failed.", "err");
-      }
-    });
+      el.mixList.innerHTML = state.mixes.map(mix => {
+        const selected = state.selectedMixId === mix.id;
+        return `
+          <div class="mix-card">
+            <div class="mix-head">
+              <div>
+                <div class="mix-name">${escapeHTML(mix.name)}</div>
+                <div class="mix-meta">${mix.trackIds.length} track${mix.trackIds.length === 1 ? '' : 's'}${mix.description ? ` · ${escapeHTML(mix.description)}` : ''}</div>
+              </div>
+              ${selected ? '<div class="badge">Selected</div>' : ''}
+            </div>
+            <div class="mix-actions">
+              <button class="pill" data-mix-select="${escapeHTML(mix.id)}">Open</button>
+              <button class="pill" data-mix-play="${escapeHTML(mix.id)}">Play</button>
+              <button class="pill" data-mix-shuffle="${escapeHTML(mix.id)}">Shuffle</button>
+              <button class="pill" data-mix-delete="${escapeHTML(mix.id)}">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
-    els.guestBtn.addEventListener("click", async () => {
-      try {
-        await signInAnonymously(auth);
-      } catch (error) {
-        console.error(error);
-        setAuthStatus(error.message || "Guest login failed.", "err");
+    function renderPlayer() {
+      const track = currentTrack();
+      if (!track) {
+        el.nowPlayingWrap.innerHTML = `
+          <div class="placeholder-art">🌴</div>
+          <div>
+            <div class="np-title">Nothing playing</div>
+            <div class="np-sub">Pick a track to start</div>
+          </div>
+        `;
+        el.toggleBtn.textContent = '▶';
+        return;
       }
-    });
 
-    els.logoutBtn.addEventListener("click", async () => {
+      el.nowPlayingWrap.innerHTML = `
+        ${track.art
+          ? `<img src="${escapeHTML(track.art)}" alt="${escapeHTML(track.title)} art" />`
+          : `<div class="placeholder-art">🌴</div>`}
+        <div>
+          <div class="np-title">${escapeHTML(track.title)}</div>
+          <div class="np-sub">${escapeHTML(track.artist || 'Unknown artist')}${track.album ? ` · ${escapeHTML(track.album)}` : ''}</div>
+        </div>
+      `;
+      el.toggleBtn.textContent = el.audio.paused ? '▶' : '⏸';
+      el.currentTimeLabel.textContent = formatTime(el.audio.currentTime || 0);
+      el.durationLabel.textContent = formatTime(el.audio.duration || 0);
+      const pct = el.audio.duration ? (el.audio.currentTime / el.audio.duration) * 100 : 0;
+      el.seekBar.value = String(pct || 0);
+    }
+
+    function playTrackById(trackId, queueIfMissing = true) {
+      const track = getTrackById(trackId);
+      if (!track || !track.src) return;
+      const hydrated = applyOverrides(track);
+      state.currentTrackId = hydrated.id;
+      if (queueIfMissing && !state.queue.includes(hydrated.id)) {
+        state.queue.unshift(hydrated.id);
+        persistQueue();
+      }
+      el.audio.src = hydrated.src;
+      el.audio.play().catch(err => console.warn('Playback failed:', err));
+      state.currentIndex = state.queue.indexOf(hydrated.id);
+      renderAll();
+    }
+
+    function enqueueTrack(trackId) {
+      if (!getTrackById(trackId)) return;
+      state.queue.push(trackId);
+      persistQueue();
+      renderQueue();
+    }
+
+    function removeQueuedIndex(index) {
+      state.queue.splice(index, 1);
+      persistQueue();
+      renderQueue();
+    }
+
+    function clearQueue() {
+      state.queue = [];
+      persistQueue();
+      renderQueue();
+    }
+
+    function nextTrack() {
+      if (!state.queue.length) {
+        const nextVisible = state.filteredTracks[0];
+        if (nextVisible) playTrackById(nextVisible.id);
+        return;
+      }
+      const currentIdx = state.queue.indexOf(state.currentTrackId);
+      const nextId = state.queue[currentIdx + 1] || state.queue[0];
+      if (nextId) playTrackById(nextId, false);
+    }
+
+    function prevTrack() {
+      if (!state.queue.length) return;
+      const currentIdx = state.queue.indexOf(state.currentTrackId);
+      const prevId = state.queue[currentIdx - 1] || state.queue[state.queue.length - 1];
+      if (prevId) playTrackById(prevId, false);
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function playCollection(trackIds, shuffle = false) {
+      const valid = trackIds.filter(id => getTrackById(id));
+      if (!valid.length) return;
+      state.queue = shuffle ? shuffleArray(valid) : [...valid];
+      persistQueue();
+      playTrackById(state.queue[0], false);
+      renderQueue();
+    }
+
+    function createMix(name, description = '') {
+      const mix = { id: uid(), name: name.trim(), description: description.trim(), trackIds: [] };
+      state.mixes.unshift(mix);
+      state.selectedMixId = mix.id;
+      persistMixes();
+      renderMixes();
+      renderAll();
+    }
+
+    function saveTrackToMix(trackId) {
+      if (!state.mixes.length) {
+        el.mixDialog.showModal();
+        return;
+      }
+      const preferred = state.mixes.find(m => m.id === state.selectedMixId) || state.mixes[0];
+      if (!preferred.trackIds.includes(trackId)) preferred.trackIds.push(trackId);
+      state.selectedMixId = preferred.id;
+      persistMixes();
+      renderMixes();
+    }
+
+    function deleteMix(mixId) {
+      state.mixes = state.mixes.filter(m => m.id !== mixId);
+      if (state.selectedMixId === mixId) state.selectedMixId = state.mixes[0]?.id || null;
+      persistMixes();
+      applyFilters();
+      renderAll();
+    }
+
+    function openEditDialog(trackId) {
+      if (!state.isOwner) return;
+      const track = applyOverrides(getTrackById(trackId) || {});
+      if (!track?.id) return;
+      el.editId.value = track.id;
+      el.editTitle.value = track.title || '';
+      el.editArtist.value = track.artist || '';
+      el.editAlbum.value = track.album || '';
+      el.editGenre.value = track.genre || '';
+      el.editArt.value = track.art || '';
+      el.editSrc.value = track.src || '';
+      el.editTags.value = Array.isArray(track.tags) ? track.tags.join(', ') : '';
+      el.editDescription.value = track.description || '';
+      el.editDialog.showModal();
+    }
+
+    function saveTrackOverrideFromForm() {
+      const id = el.editId.value;
+      if (!id) return;
+      state.trackOverrides[id] = {
+        title: el.editTitle.value.trim(),
+        artist: el.editArtist.value.trim(),
+        album: el.editAlbum.value.trim(),
+        genre: el.editGenre.value.trim(),
+        art: el.editArt.value.trim(),
+        src: el.editSrc.value.trim(),
+        tags: el.editTags.value.split(',').map(s => s.trim()).filter(Boolean),
+        description: el.editDescription.value.trim()
+      };
+      persistOverrides();
+      applyFilters();
+      renderAll();
+      el.editDialog.close();
+    }
+
+    function resetTrackOverride(id) {
+      delete state.trackOverrides[id];
+      persistOverrides();
+      applyFilters();
+      renderAll();
+      el.editDialog.close();
+    }
+
+    async function signIn() {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (err) {
+        console.error('Sign-in failed', err);
+        alert('Google sign-in failed. Check your Firebase Auth allowed domains and popup settings.');
+      }
+    }
+
+    async function signUserOut() {
       try {
         await signOut(auth);
-        setAuthStatus("Signed out.");
-      } catch (error) {
-        console.error(error);
-        setAuthStatus(error.message || "Logout failed.", "err");
+      } catch (err) {
+        console.error('Sign-out failed', err);
       }
+    }
+
+    function bindEvents() {
+      el.signinBtn.addEventListener('click', signIn);
+      el.signoutBtn.addEventListener('click', signUserOut);
+      el.refreshBtn.addEventListener('click', loadTracks);
+      el.playAllBtn.addEventListener('click', () => playCollection(state.filteredTracks.map(t => t.id), false));
+      el.shuffleBtn.addEventListener('click', () => playCollection(state.filteredTracks.map(t => t.id), true));
+      el.newMixBtn.addEventListener('click', () => el.mixDialog.showModal());
+      el.queueClearBtn.addEventListener('click', () => { clearQueue(); renderAll(); });
+      el.browseAllBtn.addEventListener('click', () => { state.browseMode = 'all'; applyFilters(); renderTracks(); });
+      el.browseMixBtn.addEventListener('click', () => { state.browseMode = 'mix'; applyFilters(); renderTracks(); });
+      el.searchInput.addEventListener('input', (e) => {
+        state.search = e.target.value;
+        applyFilters();
+        renderTracks();
+      });
+      el.sortSelect.addEventListener('change', (e) => {
+        state.sortBy = e.target.value;
+        applyFilters();
+        renderTracks();
+      });
+
+      el.trackGrid.addEventListener('click', (e) => {
+        const button = e.target.closest('[data-action]');
+        const card = e.target.closest('[data-track-id]');
+        const trackId = button?.dataset.trackId || card?.dataset.trackId;
+        if (!trackId) return;
+
+        if (!button && card) {
+          playTrackById(trackId);
+          return;
+        }
+
+        const action = button.dataset.action;
+        if (action === 'play') playTrackById(trackId);
+        if (action === 'queue') enqueueTrack(trackId);
+        if (action === 'mix') saveTrackToMix(trackId);
+        if (action === 'edit') openEditDialog(trackId);
+      });
+
+      el.queueList.addEventListener('click', (e) => {
+        const playBtn = e.target.closest('[data-queue-play]');
+        const removeBtn = e.target.closest('[data-queue-remove]');
+        if (playBtn) playTrackById(playBtn.dataset.queuePlay, false);
+        if (removeBtn) {
+          removeQueuedIndex(Number(removeBtn.dataset.queueRemove));
+          renderAll();
+        }
+      });
+
+      el.mixList.addEventListener('click', (e) => {
+        const select = e.target.closest('[data-mix-select]');
+        const play = e.target.closest('[data-mix-play]');
+        const shuffle = e.target.closest('[data-mix-shuffle]');
+        const del = e.target.closest('[data-mix-delete]');
+
+        if (select) {
+          state.selectedMixId = select.dataset.mixSelect;
+          state.browseMode = 'mix';
+          persistMixes();
+          applyFilters();
+          renderAll();
+        }
+        if (play) {
+          const mix = state.mixes.find(m => m.id === play.dataset.mixPlay);
+          if (mix) playCollection(mix.trackIds, false);
+        }
+        if (shuffle) {
+          const mix = state.mixes.find(m => m.id === shuffle.dataset.mixShuffle);
+          if (mix) playCollection(mix.trackIds, true);
+        }
+        if (del) deleteMix(del.dataset.mixDelete);
+      });
+
+      el.prevBtn.addEventListener('click', prevTrack);
+      el.nextBtn.addEventListener('click', nextTrack);
+      el.toggleBtn.addEventListener('click', () => {
+        if (!state.currentTrackId) {
+          const first = state.filteredTracks[0];
+          if (first) playTrackById(first.id);
+          return;
+        }
+        if (el.audio.paused) el.audio.play(); else el.audio.pause();
+        renderPlayer();
+      });
+
+      el.audio.addEventListener('play', renderPlayer);
+      el.audio.addEventListener('pause', renderPlayer);
+      el.audio.addEventListener('timeupdate', renderPlayer);
+      el.audio.addEventListener('loadedmetadata', renderPlayer);
+      el.audio.addEventListener('ended', nextTrack);
+
+      el.seekBar.addEventListener('input', (e) => {
+        if (!el.audio.duration) return;
+        const pct = Number(e.target.value) / 100;
+        el.audio.currentTime = el.audio.duration * pct;
+      });
+
+      const savedVolume = Number(localStorage.getItem(LS_KEYS.volume) || 0.9);
+      el.volumeBar.value = String(savedVolume);
+      el.audio.volume = savedVolume;
+      el.volumeBar.addEventListener('input', (e) => {
+        const volume = Number(e.target.value);
+        el.audio.volume = volume;
+        localStorage.setItem(LS_KEYS.volume, String(volume));
+      });
+
+      el.queueCurrentBtn.addEventListener('click', () => {
+        if (state.currentTrackId) enqueueTrack(state.currentTrackId);
+      });
+      el.saveCurrentBtn.addEventListener('click', () => {
+        if (state.currentTrackId) saveTrackToMix(state.currentTrackId);
+      });
+
+      el.editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveTrackOverrideFromForm();
+      });
+      el.deleteMetaBtn.addEventListener('click', () => resetTrackOverride(el.editId.value));
+
+      el.mixForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = el.mixNameInput.value.trim();
+        if (!name) return;
+        createMix(name, el.mixDescriptionInput.value);
+        el.mixNameInput.value = '';
+        el.mixDescriptionInput.value = '';
+        el.mixDialog.close();
+      });
+
+      document.querySelectorAll('[data-close-dialog]').forEach(btn => {
+        btn.addEventListener('click', () => document.getElementById(btn.dataset.closeDialog)?.close());
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+          e.preventDefault();
+          el.toggleBtn.click();
+        }
+        if (e.code === 'ArrowRight' && e.altKey) nextTrack();
+        if (e.code === 'ArrowLeft' && e.altKey) prevTrack();
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      state.user = user || null;
+      state.isOwner = !!user?.email && user.email.toLowerCase() === OWNER_EMAIL;
+      renderAll();
     });
 
-    onAuthStateChanged(auth, updateUserUI);
-
-    els.createMixBtn.addEventListener("click", () => createMix(els.newMixInput.value));
-    els.newMixInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") createMix(els.newMixInput.value);
-    });
-
-    els.searchInput.addEventListener("input", () => {
-      state.query = els.searchInput.value;
-      applyFilters();
-    });
-
-    els.reloadBtn.addEventListener("click", loadTracks);
-    els.refreshBrowseBtn.addEventListener("click", loadTracks);
-
-    els.playBtn.addEventListener("click", () => {
-      state.isPlaying ? pauseCurrent() : playCurrent();
-    });
-    els.prevBtn.addEventListener("click", () => moveTrack(-1));
-    els.nextBtn.addEventListener("click", () => moveTrack(1));
-
-    els.shuffleBtn.addEventListener("click", () => {
-      state.isShuffle = !state.isShuffle;
-      updateNowPlaying();
-    });
-
-    els.repeatBtn.addEventListener("click", () => {
-      state.isRepeat = !state.isRepeat;
-      updateNowPlaying();
-    });
-
-    els.volumeBar.addEventListener("input", () => {
-      const value = Number(els.volumeBar.value);
-      els.audio.volume = value;
-      els.volumeValue.textContent = `${Math.round(value * 100)}%`;
-    });
-
-    els.seekBar.addEventListener("input", () => {
-      if (!Number.isFinite(els.audio.duration)) return;
-      const nextTime = (Number(els.seekBar.value) / 100) * els.audio.duration;
-      els.audio.currentTime = nextTime;
-    });
-
-    els.audio.addEventListener("play", () => {
-      state.isPlaying = true;
-      updateNowPlaying();
-      renderTrackList();
-    });
-
-    els.audio.addEventListener("pause", () => {
-      state.isPlaying = false;
-      updateNowPlaying();
-      renderTrackList();
-    });
-
-    els.audio.addEventListener("timeupdate", () => {
-      const current = els.audio.currentTime || 0;
-      const duration = els.audio.duration || 0;
-      els.currentTime.textContent = formatTime(current);
-      els.durationTime.textContent = formatTime(duration);
-      els.seekBar.value = duration ? String((current / duration) * 100) : "0";
-    });
-
-    els.audio.addEventListener("loadedmetadata", () => {
-      els.durationTime.textContent = formatTime(els.audio.duration || 0);
-    });
-
-    els.audio.addEventListener("ended", () => {
-      if (state.isRepeat && state.currentTrackId) {
-        loadTrack(state.currentTrackId, true);
-      } else {
-        moveTrack(1);
-      }
-    });
-
-    els.audio.volume = Number(els.volumeBar.value);
-    els.volumeValue.textContent = `${Math.round(els.audio.volume * 100)}%`;
-
-    // Google provider is wired here for easy future enabling.
-    // If desired, add a button and call signInWithPopup(auth, provider).
-    window.caliMixGoogleLogin = async () => signInWithPopup(auth, provider);
-
-    loadMixes();
-    applyFilters();
-    updateNowPlaying();
+    bindEvents();
     loadTracks();
+    renderAll();
+
+    console.info(`
+CaliMix🌴 by Skye setup notes:
+1. Put this file at your site root (for example index.html).
+2. Add a /tracks/index.json manifest in your GitHub repo root.
+3. Each manifest entry can look like:
+   {
+     "title": "Ocean Drive",
+     "artist": "Skye",
+     "album": "Golden Hour",
+     "genre": "Chill",
+     "art": "/tracks/art/ocean-drive.jpg",
+     "src": "/tracks/ocean-drive.mp3",
+     "tags": ["sunset", "coastal"]
+   }
+4. Enable Google auth in Firebase Console and add your deployed domain to Authorized domains.
+5. Metadata edits currently save locally for the owner account. To make them shared, wire saveTrackOverrideFromForm() to Firestore.
+    `);
   </script>
 </body>
 </html>

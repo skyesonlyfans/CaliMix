@@ -9,5 +9,14 @@
       "src": "/tracks/likethis.mp3",
       "tags": ["coastal"]
     }
+    {
+      "title": "Funked out Pool Parties",
+      "artist": "RAMIREZ",
+      "album": "Blood Diamonds",
+      "genre": "Rap",
+      "art": "/tracks/art/ramipool.png",
+      "src": "/tracks/Funked out Pool Parties.mp3",
+      "tags": ["coastal"]
+    }
   ]
 }

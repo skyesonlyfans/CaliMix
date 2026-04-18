@@ -1,807 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CaliMix by Skye &lt;3</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #d53369;
-            --secondary: #cbad6d;
-            --bg-gradient: linear-gradient(135deg, #1a0b2e 0%, #4a154b 50%, #1e1333 100%);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            --text-main: #ffffff;
-            --text-muted: #b3b3b3;
-            --accent: #ff007f;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CaliMix by Skye &lt;3</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            user-select: none;
-        }
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-        body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            background-attachment: fixed;
-        }
+<style>
+:root{
+--primary:#d53369;
+--secondary:#cbad6d;
+--bg-gradient:linear-gradient(135deg,#1a0b2e 0%,#4a154b 50%,#1e1333 100%);
+--glass-bg:rgba(255,255,255,.05);
+--glass-border:rgba(255,255,255,.1);
+--glass-shadow:0 8px 32px rgba(0,0,0,.37);
+--text-main:#fff;
+--text-muted:#b3b3b3;
+--accent:#ff007f;
+}
 
-        /* Glassmorphism Utilities */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: var(--glass-shadow);
-        }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:'Poppins',sans-serif;
+user-select:none;
+}
 
-        .glass-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+body{
+background:var(--bg-gradient);
+color:var(--text-main);
+min-height:100vh;
+display:flex;
+flex-direction:column;
+background-attachment:fixed;
+}
 
-        .glass-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
+/* glass UI */
 
-        .glass-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+.glass{
+background:var(--glass-bg);
+backdrop-filter:blur(12px);
+border:1px solid var(--glass-border);
+border-radius:16px;
+box-shadow:var(--glass-shadow);
+}
 
-        .glass-input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 12px;
-            outline: none;
-            font-size: 16px;
-            margin-bottom: 15px;
-            transition: border 0.3s ease;
-        }
+.glass-btn{
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.2);
+color:white;
+padding:10px 20px;
+border-radius:50px;
+cursor:pointer;
+transition:.3s;
+font-weight:600;
+display:inline-flex;
+gap:8px;
+align-items:center;
+}
 
-        .glass-input:focus {
-            border-color: var(--accent);
-        }
+.glass-btn:hover:not(:disabled){
+background:rgba(255,255,255,.2);
+transform:translateY(-2px);
+}
 
-        /* App Layout */
-        #app-container {
-            display: flex;
-            flex: 1;
-            height: 100vh;
-            overflow: hidden;
-        }
+.glass-input{
+width:100%;
+background:rgba(0,0,0,.2);
+border:1px solid var(--glass-border);
+color:white;
+padding:12px 20px;
+border-radius:12px;
+outline:none;
+font-size:16px;
+margin-bottom:15px;
+}
 
-        /* Auth Screen */
-        #auth-screen {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            background: var(--bg-gradient);
-        }
-        .auth-card {
-            padding: 40px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        .auth-card h1 { margin-bottom: 10px; font-weight: 800; background: -webkit-linear-gradient(#fff, #ff007f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .auth-card p { color: var(--text-muted); margin-bottom: 30px; }
-        .auth-buttons { display: flex; flex-direction: column; gap: 15px; }
+/* layout */
 
-        /* Sidebar Navigation */
-        #sidebar {
-            width: 250px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            border-right: 1px solid var(--glass-border);
-            border-radius: 0;
-        }
-        .nav-brand {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            text-align: center;
-            background: -webkit-linear-gradient(#fff, #ff007f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            color: var(--text-muted);
-            transition: all 0.3s;
-        }
-        .nav-item:hover, .nav-item.active {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
+#app-container{
+display:flex;
+flex:1;
+height:100vh;
+overflow:hidden;
+}
 
-        /* Main Content */
-        #main-content {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-            padding-bottom: 120px;
-        }
-        .view { display: none; }
-        .view.active { display: block; }
+/* auth */
 
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+#auth-screen{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:1000;
+background:var(--bg-gradient);
+}
 
-        /* Song Grids and Lists */
-        .song-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .song-card {
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-            position: relative;
-        }
-        .song-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); }
-        .song-card img {
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .song-card h4 { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .song-card p { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .save-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            border-radius: 50%;
-            padding: 5px;
-            display: flex;
-            color: var(--text-muted);
-        }
-        .save-btn.saved { color: var(--accent); }
+.auth-card{
+padding:40px;
+text-align:center;
+max-width:400px;
+width:90%;
+}
 
-        /* Admin UI */
-        .admin-panel { margin: 0 auto; }
-        #admin-track-list::-webkit-scrollbar { width: 8px; }
-        #admin-track-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
-        #admin-track-list::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+/* sidebar */
 
-        /* Bottom Player */
-        #player-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 90px;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid var(--glass-border);
-            border-radius: 20px 20px 0 0;
-            z-index: 100;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-        #player-bar.visible { transform: translateY(0); }
+#sidebar{
+width:250px;
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+border-right:1px solid var(--glass-border);
+}
 
-        .player-info { display: flex; align-items: center; gap: 15px; width: 30%; }
-        .player-info img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
-        .player-info div h4 { font-size: 14px; margin-bottom: 2px; }
-        .player-info div p { font-size: 12px; color: var(--text-muted); }
+/* main */
 
-        .player-controls { display: flex; flex-direction: column; align-items: center; width: 40%; }
-        .control-buttons { display: flex; align-items: center; gap: 20px; margin-bottom: 5px; }
-        .control-buttons .material-icons-round { cursor: pointer; color: var(--text-muted); transition: color 0.2s; font-size: 28px; }
-        .control-buttons .material-icons-round:hover { color: white; }
-        .control-buttons .play-pause { font-size: 40px; color: white; }
+#main-content{
+flex:1;
+padding:30px;
+overflow-y:auto;
+padding-bottom:120px;
+}
 
-        .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted); }
-        .progress-bar { flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 5px; cursor: pointer; position: relative; }
-        .progress-fill { height: 100%; background: var(--accent); border-radius: 5px; width: 0%; pointer-events: none; }
+.view{display:none;}
+.view.active{display:block;}
 
-        .player-actions { width: 30%; display: flex; justify-content: flex-end; }
+/* song grid */
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            #sidebar { position: fixed; bottom: 0; top: auto; width: 100%; height: 70px; flex-direction: row; justify-content: space-around; padding: 10px; z-index: 90; border-right: none; border-top: 1px solid var(--glass-border); border-radius: 20px 20px 0 0; background: var(--glass-bg); backdrop-filter: blur(12px); }
-            .nav-brand { display: none; }
-            .nav-item { flex-direction: column; gap: 2px; padding: 5px; font-size: 10px; }
-            #main-content { padding-bottom: 180px; }
-            #player-bar { bottom: 70px; border-radius: 0; height: 70px; }
-            .player-info { width: 50%; }
-            .player-actions { display: none; }
-            .player-controls { width: 50%; }
-            .progress-container { display: none; } 
-        }
-    </style>
+.song-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.song-card{
+padding:15px;
+border-radius:12px;
+cursor:pointer;
+transition:.3s;
+position:relative;
+text-align:center;
+}
+
+.song-card:hover{
+transform:translateY(-5px);
+background:rgba(255,255,255,.08);
+}
+
+.song-card img{
+width:100%;
+aspect-ratio:1;
+border-radius:8px;
+object-fit:cover;
+margin-bottom:10px;
+}
+
+/* player */
+
+#player-bar{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:90px;
+padding:0 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-top:1px solid var(--glass-border);
+transform:translateY(100%);
+transition:.3s;
+}
+
+#player-bar.visible{
+transform:translateY(0);
+}
+</style>
 </head>
+
 <body>
 
-    <div id="auth-screen" class="glass">
-        <div class="auth-card glass">
-            <h1>CaliMix by Skye &lt;3</h1>
-            <p>Your personal soundscape.</p>
-            <div class="auth-buttons">
-                <button id="btn-login" class="glass-btn" style="justify-content: center;">
-                    <span class="material-icons-round">login</span> Continue with Google
-                </button>
-                <button id="btn-guest" class="glass-btn" style="justify-content: center; background: transparent;">
-                    Continue as Guest
-                </button>
-            </div>
-        </div>
-    </div>
+<div id="auth-screen" class="glass">
+<div class="auth-card glass">
+<h1>CaliMix by Skye &lt;3</h1>
+<p>Your personal soundscape.</p>
 
-    <div id="app-container" style="display: none;">
-        <nav id="sidebar" class="glass">
-            <div class="nav-brand">CaliMix</div>
-            <div class="nav-item active" data-target="home-view">
-                <span class="material-icons-round">home</span>
-                <span>Home</span>
-            </div>
-            <div class="nav-item" data-target="search-view">
-                <span class="material-icons-round">search</span>
-                <span>Search</span>
-            </div>
-            <div class="nav-item" id="nav-saved" data-target="saved-view" style="display: none;">
-                <span class="material-icons-round">favorite</span>
-                <span>Saved Mixes</span>
-            </div>
-            <div class="nav-item" id="nav-admin" data-target="admin-view" style="display: none; margin-top: auto;">
-                <span class="material-icons-round">admin_panel_settings</span>
-                <span>Admin Editor</span>
-            </div>
-            <div class="nav-item" id="btn-logout" style="display: none;">
-                <span class="material-icons-round">logout</span>
-                <span>Logout</span>
-            </div>
-        </nav>
+<button id="btn-login" class="glass-btn">
+<span class="material-icons-round">login</span>
+Continue with Google
+</button>
 
-        <main id="main-content">
-            
-            <div id="home-view" class="view active">
-                <div class="header-actions">
-                    <h2>Featured Tracks</h2>
-                    <button id="btn-shuffle-all" class="glass-btn">
-                        <span class="material-icons-round">shuffle</span> Shuffle All
-                    </button>
-                </div>
-                <div id="home-song-grid" class="song-grid">
-                </div>
-            </div>
+<button id="btn-guest" class="glass-btn" style="background:transparent;">
+Continue as Guest
+</button>
 
-            <div id="search-view" class="view">
-                <h2>Search</h2>
-                <input type="text" id="search-input" class="glass-input" placeholder="Search for songs, artists, or mixes...">
-                <div id="search-song-grid" class="song-grid">
-                </div>
-            </div>
+</div>
+</div>
 
-            <div id="saved-view" class="view">
-                <h2>Your Saved Songs</h2>
-                <div id="saved-song-grid" class="song-grid">
-                </div>
-            </div>
 
-            <div id="admin-view" class="view">
-                <div class="admin-panel glass" style="padding: 30px; max-width: 800px; max-height: 80vh; display: flex; flex-direction: column;">
-                    <h2>Manage B2 Track Metadata</h2>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Edit titles, artists, and cover URLs for the MP3s loaded directly from your B2 bucket.</p>
-                    <div id="admin-track-list" style="display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 10px;">
-                        </div>
-                </div>
-            </div>
+<div id="app-container" style="display:none;">
 
-        </main>
-    </div>
+<nav id="sidebar" class="glass">
+<div class="nav-brand">CaliMix</div>
 
-    <div id="player-bar" class="glass">
-        <div class="player-info">
-            <img id="player-cover" src="" alt="Album Art">
-            <div>
-                <h4 id="player-title">No Track Selected</h4>
-                <p id="player-artist">CaliMix</p>
-            </div>
-        </div>
-        <div class="player-controls">
-            <div class="control-buttons">
-                <span class="material-icons-round" id="btn-prev">skip_previous</span>
-                <span class="material-icons-round play-pause" id="btn-play-pause">play_circle_filled</span>
-                <span class="material-icons-round" id="btn-next">skip_next</span>
-            </div>
-            <div class="progress-container">
-                <span id="time-current">0:00</span>
-                <div class="progress-bar" id="progress-bar-container">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <span id="time-total">0:00</span>
-            </div>
-        </div>
-        <div class="player-actions"></div>
-    </div>
+<div class="nav-item active" data-target="home-view">
+<span class="material-icons-round">home</span>
+Home
+</div>
 
-    <script type="module">
-        // Firebase Core and Firestore
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        
-        // AWS SDK (List Objects for B2)
-        import { S3Client, ListObjectsV2Command } from "https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3.525.0/+esm";
-        // --- Configuration ---
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao",
-            authDomain: "calimix.firebaseapp.com",
-            projectId: "calimix",
-            messagingSenderId: "375041264716",
-            appId: "1:375041264716:web:a4471905ba0ec230e8b8e9",
-            measurementId: "G-0YWBGP7FFX"
-        };
+<div class="nav-item" data-target="search-view">
+<span class="material-icons-round">search</span>
+Search
+</div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+</nav>
 
-        const b2Config = {
-    bucketName: "calimix", // Keep this for our ListObjects command later
+
+<main id="main-content">
+
+<div id="home-view" class="view active">
+<h2>Featured Tracks</h2>
+<div id="home-song-grid" class="song-grid"></div>
+</div>
+
+<div id="search-view" class="view">
+<h2>Search</h2>
+<input id="search-input" class="glass-input">
+<div id="search-song-grid" class="song-grid"></div>
+</div>
+
+</main>
+</div>
+
+
+<div id="player-bar" class="glass">
+<div>
+<h4 id="player-title">No Track Selected</h4>
+</div>
+</div>
+
+
+
+<script type="module">
+
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+
+import {
+getAuth,
+signInWithPopup,
+GoogleAuthProvider,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+import {
+S3Client,
+ListObjectsV2Command
+}
+from "https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3.525.0/+esm";
+
+
+/* firebase */
+
+const firebaseConfig={
+apiKey:"AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao",
+authDomain:"calimix.firebaseapp.com",
+projectId:"calimix"
 };
 
-const s3Client = new S3Client({
-    endpoint: "https://s3.us-east-005.backblazeb2.com",
-    region: "us-east-005",
-    credentials: {
-        accessKeyId: "0058aaeb5bf587b000000000a", 
-        secretAccessKey: "K005tnV/kyvmBSfHllDXJVE6lIdzIos"
-    }
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+
+/* BACKBLAZE B2 CONFIG (FIXED) */
+
+const s3Client=new S3Client({
+endpoint:"https://s3.us-east-005.backblazeb2.com",
+region:"us-east-005",
+forcePathStyle:true,
+credentials:{
+accessKeyId:"0058aaeb5bf587b000000000b",
+secretAccessKey:"K005pe+xi32OYTYjigts4sMlFfsgovo"
+}
 });
-        const s3Client = new S3Client(b2Config);
 
-        // Application State
-        let currentUser = null;
-        let globalSongs = [];
-        let queue = [];
-        let currentQueueIndex = 0;
-        let userSavedSongIds = [];
-        const audio = new Audio();
-        
-        const ADMIN_EMAIL = "tylern662@gmail.com";
+const bucketName="calimix";
 
-        const elAppContainer = document.getElementById('app-container');
-        const elAuthScreen = document.getElementById('auth-screen');
-        const elNavAdmin = document.getElementById('nav-admin');
-        const elNavSaved = document.getElementById('nav-saved');
-        const elBtnLogout = document.getElementById('btn-logout');
-        
-        // Initialization
-        function init() {
-            setupNavigation();
-            setupPlayerControls();
-            setupSearch();
 
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    currentUser = user;
-                    elNavSaved.style.display = 'flex';
-                    elBtnLogout.style.display = 'flex';
-                    
-                    if (user.email === ADMIN_EMAIL) {
-                        elNavAdmin.style.display = 'flex';
-                    } else {
-                        elNavAdmin.style.display = 'none';
-                        if (document.getElementById('admin-view').classList.contains('active')) {
-                            switchView('home-view');
-                        }
-                    }
+let globalSongs=[];
 
-                    await loadUserSavedSongs();
-                    enterApp();
-                } else {
-                    currentUser = null;
-                    elNavSaved.style.display = 'none';
-                    elNavAdmin.style.display = 'none';
-                    elBtnLogout.style.display = 'none';
-                }
-            });
 
-            document.getElementById('btn-login').addEventListener('click', () => {
-                const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider).catch(err => alert("Login Error: " + err.message));
-            });
-            document.getElementById('btn-guest').addEventListener('click', () => {
-                enterApp();
-            });
-            elBtnLogout.addEventListener('click', () => {
-                signOut(auth).then(() => window.location.reload());
-            });
-        }
+/* login */
 
-        function enterApp() {
-            elAuthScreen.style.display = 'none';
-            elAppContainer.style.display = 'flex';
-            
-            const wantsAdmin = window.location.pathname.includes('admin') || window.location.hash.includes('admin');
-            if (wantsAdmin && currentUser && currentUser.email === ADMIN_EMAIL) {
-                switchView('admin-view');
-            } else {
-                switchView('home-view');
-            }
-            
-            fetchSongs();
-        }
+document.getElementById("btn-login")
+.onclick=()=>{
 
-        function setupNavigation() {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    if (item.id === 'btn-logout') return;
-                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                    item.classList.add('active');
-                    const target = item.getAttribute('data-target');
-                    switchView(target);
-                });
-            });
+signInWithPopup(auth,new GoogleAuthProvider());
 
-            document.getElementById('btn-shuffle-all').addEventListener('click', () => {
-                if (globalSongs.length === 0) return;
-                let shuffled = [...globalSongs].sort(() => Math.random() - 0.5);
-                queue = shuffled;
-                currentQueueIndex = 0;
-                playTrack(queue[0]);
-            });
-        }
+};
 
-        function switchView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            if(viewId === 'saved-view') renderSongs(globalSongs.filter(s => userSavedSongIds.includes(s.id)), 'saved-song-grid');
-        }
 
-        // --- Core Engine: Fetching from B2 & Firestore Merging ---
-        async function fetchSongs() {
-            try {
-                // 1. Fetch File List directly from Backblaze B2 root
-                const b2Command = new ListObjectsV2Command({ Bucket: b2Config.bucketName });
-                const b2Response = await s3Client.send(b2Command);
-                
-                // Filter specifically for MP3s
-                const b2Files = (b2Response.Contents || []).filter(file => file.Key.toLowerCase().endsWith('.mp3'));
+document.getElementById("btn-guest")
+.onclick=enterApp;
 
-                // 2. Fetch User-defined metadata overrides from Firestore
-                const q = query(collection(db, "songs"));
-                const querySnapshot = await getDocs(q);
-                const firestoreData = {};
-                querySnapshot.forEach((doc) => {
-                    firestoreData[doc.id] = doc.data();
-                });
 
-                // 3. Map together to build the final list
-                globalSongs = b2Files.map((file, index) => {
-                    const key = file.Key;
-                    const metadata = firestoreData[key] || {};
-                    
-                    return {
-                        id: key, // We use the exact B2 filename key as the unique ID
-                        key: key,
-                        title: metadata.title || key.replace('.mp3', ''),
-                        artist: metadata.artist || 'Unknown Artist',
-                        coverUrl: metadata.coverUrl || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
-                        // Direct download link logic as requested
-                        audioUrl: `https://f005.backblazeb2.com/file/calimix/${encodeURIComponent(key)}`,
-                        safeId: `admin_input_${index}` 
-                    };
-                });
+onAuthStateChanged(auth,user=>{
+if(user) enterApp();
+});
 
-                // Trigger UI Renders
-                renderSongs(globalSongs, 'home-song-grid');
 
-                const searchInput = document.getElementById('search-input').value.toLowerCase();
-                if (searchInput) {
-                    const filtered = globalSongs.filter(s => s.title.toLowerCase().includes(searchInput) || s.artist.toLowerCase().includes(searchInput));
-                    renderSongs(filtered, 'search-song-grid');
-                }
+/* enter */
 
-                if (document.getElementById('saved-view').classList.contains('active')) {
-                    renderSongs(globalSongs.filter(s => userSavedSongIds.includes(s.id)), 'saved-song-grid');
-                }
+function enterApp(){
 
-                if (currentUser && currentUser.email === ADMIN_EMAIL) {
-                    renderAdminList();
-                }
+document.getElementById("auth-screen").style.display="none";
+document.getElementById("app-container").style.display="flex";
 
-            } catch (err) {
-                console.error("Error fetching tracks from B2:", err);
-                document.getElementById('home-song-grid').innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted);">Error communicating with B2 or Firebase: ${err.message}</p>`;
-            }
-        }
+fetchSongs();
 
-        async function loadUserSavedSongs() {
-            if (!currentUser) return;
-            try {
-                const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-                if (userDoc.exists()) {
-                    userSavedSongIds = userDoc.data().savedSongs || [];
-                }
-            } catch (err) {
-                console.error("Error loading saved songs:", err);
-            }
-        }
+}
 
-        async function toggleSaveSong(songId, heartElement) {
-            if (!currentUser) {
-                alert("Please login via Google to save songs.");
-                return;
-            }
-            const isSaved = userSavedSongIds.includes(songId);
-            if (isSaved) {
-                userSavedSongIds = userSavedSongIds.filter(id => id !== songId);
-                heartElement.classList.remove('saved');
-            } else {
-                userSavedSongIds.push(songId);
-                heartElement.classList.add('saved');
-            }
-            
-            if (document.getElementById('saved-view').classList.contains('active')) {
-                renderSongs(globalSongs.filter(s => userSavedSongIds.includes(s.id)), 'saved-song-grid');
-            }
 
-            try {
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    savedSongs: userSavedSongIds
-                }, { merge: true });
-            } catch (err) {
-                console.error("Error updating saves:", err);
-            }
-        }
+/* FETCH SONGS FROM B2 */
 
-        function renderSongs(songsArray, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            
-            if (songsArray.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-muted); grid-column: 1/-1;">No tracks found.</p>`;
-                return;
-            }
+async function fetchSongs(){
 
-            songsArray.forEach((song, index) => {
-                const isSaved = userSavedSongIds.includes(song.id);
-                const card = document.createElement('div');
-                card.className = 'song-card glass';
-                card.innerHTML = `
-                    <div class="save-btn ${isSaved ? 'saved' : ''}" data-id="${song.id}">
-                        <span class="material-icons-round" style="font-size: 18px;">favorite</span>
-                    </div>
-                    <img src="${song.coverUrl}" alt="Cover">
-                    <h4>${song.title}</h4>
-                    <p>${song.artist}</p>
-                `;
-                
-                card.addEventListener('click', (e) => {
-                    if(e.target.closest('.save-btn')) {
-                        toggleSaveSong(song.id, e.target.closest('.save-btn'));
-                    } else {
-                        queue = [...songsArray];
-                        currentQueueIndex = index;
-                        playTrack(song);
-                    }
-                });
-                
-                container.appendChild(card);
-            });
-        }
+try{
 
-        function setupSearch() {
-            const searchInput = document.getElementById('search-input');
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                if(term.length > 0) {
-                    const filtered = globalSongs.filter(s => 
-                        s.title.toLowerCase().includes(term) || 
-                        s.artist.toLowerCase().includes(term)
-                    );
-                    renderSongs(filtered, 'search-song-grid');
-                } else {
-                    renderSongs([], 'search-song-grid');
-                }
-            });
-        }
+const command=new ListObjectsV2Command({
+Bucket:bucketName
+});
 
-        // --- Audio Player Logic ---
-        const elPlayerBar = document.getElementById('player-bar');
-        const btnPlayPause = document.getElementById('btn-play-pause');
-        const progressBarContainer = document.getElementById('progress-bar-container');
-        const progressFill = document.getElementById('progress-fill');
+const response=await s3Client.send(command);
 
-        function playTrack(song) {
-            if (!song) return;
-            audio.src = song.audioUrl;
-            audio.play();
-            
-            document.getElementById('player-title').innerText = song.title;
-            document.getElementById('player-artist').innerText = song.artist;
-            document.getElementById('player-cover').src = song.coverUrl;
-            
-            elPlayerBar.classList.add('visible');
-            btnPlayPause.innerText = 'pause_circle_filled';
-        }
+globalSongs=(response.Contents||[])
+.filter(x=>x.Key.endsWith(".mp3"))
+.map(file=>({
 
-        function setupPlayerControls() {
-            btnPlayPause.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    btnPlayPause.innerText = 'pause_circle_filled';
-                } else {
-                    audio.pause();
-                    btnPlayPause.innerText = 'play_circle_filled';
-                }
-            });
+title:file.Key.replace(".mp3",""),
+artist:"Unknown Artist",
+audioUrl:
+`https://f005.backblazeb2.com/file/${bucketName}/${encodeURIComponent(file.Key)}`
 
-            document.getElementById('btn-next').addEventListener('click', playNext);
-            document.getElementById('btn-prev').addEventListener('click', playPrev);
+}));
 
-            audio.addEventListener('timeupdate', () => {
-                if(audio.duration) {
-                    const pct = (audio.currentTime / audio.duration) * 100;
-                    progressFill.style.width = `${pct}%`;
-                    document.getElementById('time-current').innerText = formatTime(audio.currentTime);
-                    document.getElementById('time-total').innerText = formatTime(audio.duration);
-                }
-            });
+renderSongs(globalSongs);
 
-            audio.addEventListener('ended', playNext);
+}
 
-            progressBarContainer.addEventListener('click', (e) => {
-                const rect = progressBarContainer.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const width = rect.width;
-                audio.currentTime = (clickX / width) * audio.duration;
-            });
-        }
+catch(err){
 
-        function playNext() {
-            if (queue.length > 0) {
-                currentQueueIndex = (currentQueueIndex + 1) % queue.length;
-                playTrack(queue[currentQueueIndex]);
-            }
-        }
+console.error(err);
 
-        function playPrev() {
-            if (queue.length > 0) {
-                currentQueueIndex = (currentQueueIndex - 1 + queue.length) % queue.length;
-                playTrack(queue[currentQueueIndex]);
-            }
-        }
+document.getElementById("home-song-grid")
+.innerHTML="B2 connection failed ❌";
 
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-        }
+}
 
-        // --- Simplified Admin Functionality ---
-        function renderAdminList() {
-            const container = document.getElementById('admin-track-list');
-            container.innerHTML = '';
+}
 
-            if (globalSongs.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);">No MP3 files detected in the B2 bucket.</p>';
-                return;
-            }
 
-            globalSongs.forEach(song => {
-                const row = document.createElement('div');
-                row.className = 'glass';
-                row.style.padding = '15px';
-                row.style.display = 'flex';
-                row.style.gap = '15px';
-                row.style.alignItems = 'center';
-                row.style.background = 'rgba(0,0,0,0.2)';
+/* render */
 
-                row.innerHTML = `
-                    <img src="${song.coverUrl}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
-                    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-                        <div style="font-size: 11px; color: var(--accent); font-weight: 600;">Bucket Key: ${song.key}</div>
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" class="glass-input" style="margin: 0; padding: 8px; font-size: 13px; flex: 1;" placeholder="Track Title" value="${song.title}" id="${song.safeId}-title">
-                            <input type="text" class="glass-input" style="margin: 0; padding: 8px; font-size: 13px; flex: 1;" placeholder="Artist" value="${song.artist}" id="${song.safeId}-artist">
-                        </div>
-                        <input type="text" class="glass-input" style="margin: 0; padding: 8px; font-size: 13px;" placeholder="Cover Image URL (Optional)" value="${song.coverUrl !== 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' ? song.coverUrl : ''}" id="${song.safeId}-cover">
-                    </div>
-                    <button class="glass-btn save-meta-btn" data-key="${song.key}" data-safeid="${song.safeId}" style="height: 40px; padding: 0 15px;"><span class="material-icons-round">save</span></button>
-                `;
-                container.appendChild(row);
-            });
+function renderSongs(list){
 
-            document.querySelectorAll('.save-meta-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const key = btn.getAttribute('data-key');
-                    const safeId = btn.getAttribute('data-safeid');
-                    
-                    const title = document.getElementById(`${safeId}-title`).value.trim();
-                    const artist = document.getElementById(`${safeId}-artist`).value.trim();
-                    let coverUrl = document.getElementById(`${safeId}-cover`).value.trim();
+const container=
+document.getElementById("home-song-grid");
 
-                    if (!coverUrl) {
-                        coverUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-                    }
+container.innerHTML="";
 
-                    btn.disabled = true;
-                    btn.innerHTML = '<span class="material-icons-round">sync</span>';
+list.forEach(song=>{
 
-                    try {
-                        // Map the specific B2 Key into Firebase Database 
-                        await setDoc(doc(db, "songs", key), {
-                            title, artist, coverUrl
-                        }, { merge: true });
-                        
-                        btn.innerHTML = '<span class="material-icons-round">check</span>';
-                        btn.style.color = '#00ff88';
-                        
-                        setTimeout(() => {
-                            btn.disabled = false;
-                            btn.innerHTML = '<span class="material-icons-round">save</span>';
-                            btn.style.color = '';
-                            fetchSongs(); // Re-fetch to apply UI changes seamlessly
-                        }, 1500);
+const div=document.createElement("div");
 
-                    } catch(err) {
-                        console.error("Error saving:", err);
-                        alert("Error saving metadata: " + err.message);
-                        btn.disabled = false;
-                        btn.innerHTML = '<span class="material-icons-round">save</span>';
-                    }
-                });
-            });
-        }
+div.className="song-card glass";
 
-        // Run App
-        document.addEventListener('DOMContentLoaded', init);
+div.innerHTML=`
+<h4>${song.title}</h4>
+`;
 
-    </script>
+div.onclick=()=>playTrack(song);
+
+container.appendChild(div);
+
+});
+
+}
+
+
+/* player */
+
+const audio=new Audio();
+
+function playTrack(song){
+
+audio.src=song.audioUrl;
+
+audio.play();
+
+document.getElementById("player-title")
+.innerText=song.title;
+
+document.getElementById("player-bar")
+.classList.add("visible");
+
+}
+
+</script>
+
 </body>
 </html>

@@ -59,6 +59,7 @@
     "src": "/tracks/glitterandgold.m4a",
     "tags": ["rap", "cali"]
     },
+    {
     "id": "ROCKIN",
     "title": "ROCKIN",
     "artist": "Shoreline Mafia",
@@ -68,6 +69,7 @@
     "src": "/tracks/ROCKIN.m4a",
     "tags": ["west coast", "rap"]
     },
+    {
     "id": "backtocali",
     "title": "Goin Back to Cali",
     "artist": "Notorious B.I.G",

@@ -1,22 +1,82 @@
 [
   {
-      "title": "Funked out Pool Parties",
-      "artist": "RAMIREZ",
-      "album": "Blood Diamonds",
-      "genre": "Rap",
-      "art": "/tracks/art/ramipool.png",
-      "src": "/tracks/Funked out Pool Parties.mp3",
-      "tags": ["coastal"]
+    "id": "ocean-drive-duke-dumont",
+    "title": "Ocean Drive",
+    "artist": "Duke Dumont",
+    "album": "Drip EP",
+    "genre": "Deep House",
+    "art": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/ocean-drive.mp3",
+    "tags": ["summer", "club", "vibes"]
   },
   {
-      "title": "Like This",
-      "artist": "Kaneezy",
-      "album": "Like This",
-      "genre": "Rap",
-      "art": "/tracks/art/likethis.png",
-      "src": "/tracks/likethis.mp3",
-      "tags": ["coastal"]
+    "id": "california-love",
+    "title": "California Love",
+    "artist": "2Pac",
+    "album": "All Eyez on Me",
+    "genre": "Hip Hop",
+    "art": "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/california-love.mp3",
+    "tags": ["classic", "west coast", "hiphop"]
   },
-
+  {
+    "id": "sunflower",
+    "title": "Sunflower",
+    "artist": "Post Malone & Swae Lee",
+    "album": "Spider-Man: Into the Spider-Verse",
+    "genre": "Pop",
+    "art": "https://images.unsplash.com/photo-1596073410745-a13903971f76?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/sunflower.mp3",
+    "tags": ["pop", "chill", "upbeat"]
+  },
+  {
+    "id": "west-coast",
+    "title": "West Coast",
+    "artist": "Lana Del Rey",
+    "album": "Ultraviolence",
+    "genre": "Alternative",
+    "art": "https://images.unsplash.com/photo-1505852903341-fc8d3db10436?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/west-coast.mp3",
+    "tags": ["moody", "cali", "alternative"]
+  },
+  {
+    "id": "san-diego",
+    "title": "San Diego",
+    "artist": "Blink-182",
+    "album": "California",
+    "genre": "Pop Punk",
+    "art": "https://images.unsplash.com/photo-1516900548057-da0760b09460?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/san-diego.mp3",
+    "tags": ["punk", "rock", "nostalgia"]
+  },
+  {
+    "id": "hotel-california",
+    "title": "Hotel California",
+    "artist": "Eagles",
+    "album": "Hotel California",
+    "genre": "Rock",
+    "art": "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/hotel-california.mp3",
+    "tags": ["classic", "rock", "legendary"]
+  },
+  {
+    "id": "californication",
+    "title": "Californication",
+    "artist": "Red Hot Chili Peppers",
+    "album": "Californication",
+    "genre": "Alternative Rock",
+    "art": "https://images.unsplash.com/photo-1470219556762-1771e7f9427d?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/californication.mp3",
+    "tags": ["90s", "rock", "chilipeppers"]
+  },
+  {
+    "id": "malibu",
+    "title": "Malibu",
+    "artist": "Miley Cyrus",
+    "album": "Younger Now",
+    "genre": "Pop",
+    "art": "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=300&q=80",
+    "src": "/tracks/miley-malibu.mp3",
+    "tags": ["beach", "pop", "happy"]
   }
 ]

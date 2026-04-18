@@ -20,14 +20,14 @@
     "tags": ["west coast", "rap"]
   },
   {
-    "id": "sunflower",
-    "title": "Sunflower",
-    "artist": "Post Malone & Swae Lee",
-    "album": "Spider-Man: Into the Spider-Verse",
-    "genre": "Pop",
-    "art": "https://images.unsplash.com/photo-1596073410745-a13903971f76?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/sunflower.mp3",
-    "tags": ["pop", "chill", "upbeat"]
+    "id": "soruff",
+    "title": "So ruff So tuff in L.A (feat. suckerfree104, eastsidemayor & mr.459bandit)",
+    "artist": "WeSSmont SSkeme",
+    "album": "So Ruff, So Tuff in L.A.",
+    "genre": "Rap",
+    "art": "https://lh3.googleusercontent.com/Zscde3aCYEL4cLLm_XzC0DH1_iGJRxTFJx-3xJa9wR2b9XMqpxgsgAzwOArdeSImj3fN2m-0sxyrJKf7=w544-h544-l90-rj",
+    "src": "/tracks/So ruff.mp3",
+    "tags": ["rap"]
   },
   {
     "id": "west-coast",

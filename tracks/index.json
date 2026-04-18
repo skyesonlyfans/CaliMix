@@ -1,15 +1,5 @@
-{
-  "tracks": [
-    {
-      "title": "Like This",
-      "artist": "Kaneezy",
-      "album": "Like This",
-      "genre": "Rap",
-      "art": "/tracks/art/likethis.png",
-      "src": "/tracks/likethis.mp3",
-      "tags": ["coastal"]
-    }
-    {
+[
+  {
       "title": "Funked out Pool Parties",
       "artist": "RAMIREZ",
       "album": "Blood Diamonds",
@@ -17,6 +7,16 @@
       "art": "/tracks/art/ramipool.png",
       "src": "/tracks/Funked out Pool Parties.mp3",
       "tags": ["coastal"]
-    }
-  ]
-}
+  },
+  {
+      "title": "Like This",
+      "artist": "Kaneezy",
+      "album": "Like This",
+      "genre": "Rap",
+      "art": "/tracks/art/likethis.png",
+      "src": "/tracks/likethis.mp3",
+      "tags": ["coastal"]
+  },
+
+  }
+]

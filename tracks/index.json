@@ -38,5 +38,14 @@
     "art": "https://lh3.googleusercontent.com/c9xGti067x2SCQx-0jcMHsZfxgY9gxlgmBozEanKt45jAYxquub-nq6BsIjCHb9A7GkmilmGc9d3HfjS=w544-h544-l90-rj",
     "src": "/tracks/backstroke.mp3",
     "tags": ["rap", "cali"]
-  }
+  },
+  {
+    "id": "wontfold",
+    "title": "Wont Fold",
+    "artist": "Haitii Babii",
+    "album": "(Street Performance)",
+    "genre": "Rap",
+    "art": "https://imgs.search.brave.com/tt_-n2q06XwH1ygwGcCitrW3O-LSDOcLE3DXen4QQwg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnl0/aW1nLmNvbS92aS9Y/WFZuMHE4R1Q4RS9o/cWRlZmF1bHQuanBn",
+    "src": "/tracks/wontfold.mp3",
+    "tags": ["rap", "cali"]
 ]

@@ -58,5 +58,23 @@
     "art": "https://i1.sndcdn.com/artworks-tycEMUntk9sgJ3Ar-8rGKhg-t1080x1080.jpg",
     "src": "/tracks/glitterandgold.m4a",
     "tags": ["rap", "cali"]
-    }
+    },
+    "id": "ROCKIN",
+    "title": "ROCKIN",
+    "artist": "Shoreline Mafia",
+    "album": "Rockin'",
+    "genre": "Rap",
+    "art": "https://i1.sndcdn.com/artworks-v3JpFCLuUFVL-0-t500x500.jpg",
+    "src": "/tracks/ROCKIN.m4a",
+    "tags": ["west coast", "rap"]
+    },
+    "id": "backtocali",
+    "title": "Goin Back to Cali",
+    "artist": "Notorious B.I.G",
+    "album": "Greatest Hits",
+    "genre": "Rap",
+    "art": "https://i1.sndcdn.com/artworks-000594962994-tbzpj9-t500x500.jpg",
+    "src": "/tracks/backtocali.m4a",
+    "tags": ["west coast", "rap"]
+    },
 ]

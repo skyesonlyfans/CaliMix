@@ -63,9 +63,14 @@
             gap: 8px;
         }
 
-        .glass-btn:hover {
+        .glass-btn:hover:not(:disabled) {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
+        }
+
+        .glass-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .glass-input {
@@ -251,7 +256,7 @@
             .player-info { width: 50%; }
             .player-actions { display: none; }
             .player-controls { width: 50%; }
-            .progress-container { display: none; } /* Hide progress on mobile to save space */
+            .progress-container { display: none; } 
         }
     </style>
 </head>
@@ -260,7 +265,7 @@
     <div id="auth-screen" class="glass">
         <div class="auth-card glass">
             <h1>CaliMix by Skye &lt;3</h1>
-            <p>You ready?</p>
+            <p>Your personal soundscape.</p>
             <div class="auth-buttons">
                 <button id="btn-login" class="glass-btn" style="justify-content: center;">
                     <span class="material-icons-round">login</span> Continue with Google
@@ -325,7 +330,7 @@
 
             <div id="admin-view" class="view">
                 <div class="admin-panel glass" style="padding: 30px;">
-                    <h2>Upload New Track</h2>
+                    <h2>Upload New Track to B2</h2>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Upload MP3. Metadata is extracted automatically if available.</p>
                     
                     <input type="file" id="admin-file-input" accept="audio/mp3" class="glass-input" style="padding: 8px;">
@@ -370,23 +375,25 @@
                 <span id="time-total">0:00</span>
             </div>
         </div>
-        <div class="player-actions">
-            </div>
+        <div class="player-actions"></div>
     </div>
 
     <script type="module">
-        // Import Firebase Modules
+        // Firebase Core and Firestore (Database)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadString } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        
+        // AWS SDK (for Backblaze B2 S3 Compatibility)
+        import { S3Client, PutObjectCommand } from "https://esm.sh/@aws-sdk/client-s3@3.525.0";
 
-        // Firebase Configuration
+        // --- Configuration ---
+        
+        // Firebase Configuration (Database & Auth)
         const firebaseConfig = {
             apiKey: "AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao",
             authDomain: "calimix.firebaseapp.com",
             projectId: "calimix",
-            storageBucket: "calimix.firebasestorage.app",
             messagingSenderId: "375041264716",
             appId: "1:375041264716:web:a4471905ba0ec230e8b8e9",
             measurementId: "G-0YWBGP7FFX"
@@ -396,7 +403,19 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
+
+        // Backblaze B2 (S3) Configuration
+        const b2Config = {
+            endpoint: "https://s3.us-east-005.backblazeb2.com",
+            region: "us-east-005", // Standard S3 region format required by the SDK
+            bucketName: "calimix",
+            credentials: {
+                accessKeyId: "0058aaeb5bf587b000000000a", 
+                secretAccessKey: "K005tnV/kyvmBSfHllDXJVE6lIdzIos"
+            }
+        };
+
+        const s3Client = new S3Client(b2Config);
 
         // Application State
         let currentUser = null;
@@ -406,8 +425,8 @@
         let userSavedSongIds = [];
         const audio = new Audio();
         
-        // Routing detection for Admin
-        const isAdminRoute = window.location.pathname.includes('admin') || window.location.hash.includes('admin');
+        // Admin Access Settings
+        const ADMIN_EMAIL = "tylern662@gmail.com";
 
         // DOM Elements
         const elAppContainer = document.getElementById('app-container');
@@ -428,13 +447,26 @@
                     currentUser = user;
                     elNavSaved.style.display = 'flex';
                     elBtnLogout.style.display = 'flex';
+                    
+                    // Admin Role Check
+                    if (user.email === ADMIN_EMAIL) {
+                        elNavAdmin.style.display = 'flex';
+                        setupAdminPanel();
+                    } else {
+                        elNavAdmin.style.display = 'none';
+                        // Boot them out of admin view if they somehow got there
+                        if (document.getElementById('admin-view').classList.contains('active')) {
+                            switchView('home-view');
+                        }
+                    }
+
                     await loadUserSavedSongs();
                     enterApp();
                 } else {
                     currentUser = null;
                     elNavSaved.style.display = 'none';
+                    elNavAdmin.style.display = 'none';
                     elBtnLogout.style.display = 'none';
-                    // If guest hasn't clicked continue yet, leave auth screen visible
                 }
             });
 
@@ -449,19 +481,20 @@
             elBtnLogout.addEventListener('click', () => {
                 signOut(auth).then(() => window.location.reload());
             });
-
-            // Admin Logic
-            if (isAdminRoute) {
-                elNavAdmin.style.display = 'flex';
-                switchView('admin-view');
-                setupAdminPanel();
-            }
         }
 
         function enterApp() {
             elAuthScreen.style.display = 'none';
             elAppContainer.style.display = 'flex';
-            if (!isAdminRoute) switchView('home-view');
+            
+            // Auto route to admin if they are admin and URL has /admin
+            const wantsAdmin = window.location.pathname.includes('admin') || window.location.hash.includes('admin');
+            if (wantsAdmin && currentUser && currentUser.email === ADMIN_EMAIL) {
+                switchView('admin-view');
+            } else {
+                switchView('home-view');
+            }
+            
             fetchSongs();
         }
 
@@ -521,7 +554,7 @@
 
         async function toggleSaveSong(songId, heartElement) {
             if (!currentUser) {
-                alert("Please login to save songs.");
+                alert("Please login via Google to save songs.");
                 return;
             }
             const isSaved = userSavedSongIds.includes(songId);
@@ -533,7 +566,6 @@
                 heartElement.classList.add('saved');
             }
             
-            // Re-render saved view if active
             if (document.getElementById('saved-view').classList.contains('active')) {
                 renderSongs(globalSongs.filter(s => userSavedSongIds.includes(s.id)), 'saved-song-grid');
             }
@@ -569,7 +601,6 @@
                     <p>${song.artist}</p>
                 `;
                 
-                // Play on click (exclude save button area)
                 card.addEventListener('click', (e) => {
                     if(e.target.closest('.save-btn')) {
                         toggleSaveSong(song.id, e.target.closest('.save-btn'));
@@ -672,7 +703,7 @@
             return `${min}:${sec < 10 ? '0' : ''}${sec}`;
         }
 
-        // Admin Functionality (Metadata & Upload)
+        // Admin Functionality (Backblaze B2 Upload)
         let pendingAudioFile = null;
         let pendingCoverDataUrl = null;
 
@@ -689,7 +720,7 @@
                 if (!file) return;
                 pendingAudioFile = file;
                 
-                // Use jsmediatags to read ID3 info
+                // Extract ID3 metadata
                 window.jsmediatags.read(file, {
                     onSuccess: function(tag) {
                         const tags = tag.tags;
@@ -726,26 +757,48 @@
                 if (!title) return alert('Title is required');
 
                 btnUpload.disabled = true;
-                btnUpload.innerHTML = '<span class="material-icons-round">hourglass_empty</span> Uploading...';
-                statusText.innerText = "Uploading audio file to Storage...";
+                btnUpload.innerHTML = '<span class="material-icons-round">hourglass_empty</span> Uploading to B2...';
+                statusText.innerText = "Uploading audio file to Backblaze B2...";
 
                 try {
-                    // 1. Upload Audio
-                    const audioRef = ref(storage, `songs/${Date.now()}_${pendingAudioFile.name}`);
-                    await uploadBytesResumable(audioRef, pendingAudioFile);
-                    const audioUrl = await getDownloadURL(audioRef);
+                    // Generate unique filenames
+                    const timestamp = Date.now();
+                    const audioKey = `songs/${timestamp}_${pendingAudioFile.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+                    
+                    // 1. Upload Audio to B2
+                    const audioCommand = new PutObjectCommand({
+                        Bucket: b2Config.bucketName,
+                        Key: audioKey,
+                        Body: pendingAudioFile,
+                        ContentType: pendingAudioFile.type || "audio/mpeg"
+                    });
+                    
+                    await s3Client.send(audioCommand);
+                    const audioUrl = `${b2Config.endpoint}/${b2Config.bucketName}/${audioKey}`;
 
-                    // 2. Upload Cover Art (if exists)
+                    // 2. Upload Cover Art to B2 (if exists)
                     let coverUrl = null;
                     if (pendingCoverDataUrl) {
-                        statusText.innerText = "Uploading album artwork...";
-                        const coverRef = ref(storage, `covers/${Date.now()}_cover.jpg`);
-                        await uploadString(coverRef, pendingCoverDataUrl, 'data_url');
-                        coverUrl = await getDownloadURL(coverRef);
+                        statusText.innerText = "Uploading album artwork to B2...";
+                        
+                        // Convert base64 to Blob for S3 upload
+                        const res = await fetch(pendingCoverDataUrl);
+                        const blob = await res.blob();
+                        const coverKey = `covers/${timestamp}_cover.jpg`;
+
+                        const coverCommand = new PutObjectCommand({
+                            Bucket: b2Config.bucketName,
+                            Key: coverKey,
+                            Body: blob,
+                            ContentType: blob.type
+                        });
+
+                        await s3Client.send(coverCommand);
+                        coverUrl = `${b2Config.endpoint}/${b2Config.bucketName}/${coverKey}`;
                     }
 
-                    // 3. Save to Firestore
-                    statusText.innerText = "Saving track data...";
+                    // 3. Save metadata to Firestore
+                    statusText.innerText = "Saving track data to Firebase...";
                     await addDoc(collection(db, "songs"), {
                         title,
                         artist,
@@ -768,7 +821,7 @@
                         btnUpload.disabled = false;
                         btnUpload.innerHTML = '<span class="material-icons-round">cloud_upload</span> Upload Track to CaliMix';
                         statusText.innerText = "";
-                        fetchSongs(); // Refresh list
+                        fetchSongs(); 
                     }, 3000);
 
                 } catch (error) {

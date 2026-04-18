@@ -1,23 +1,23 @@
 [
   {
-    "id": "ocean-drive-duke-dumont",
-    "title": "Ocean Drive",
-    "artist": "Duke Dumont",
-    "album": "Drip EP",
-    "genre": "Deep House",
+    "id": "foppr",
+    "title": "Funked out Pool Parties",
+    "artist": "Ramirez",
+    "album": "Blood Diamonds",
+    "genre": "Rap",
     "art": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/ocean-drive.mp3",
-    "tags": ["summer", "club", "vibes"]
+    "src": "Funked out Pool Parties.mp3",
+    "tags": ["summer", "rap"]
   },
   {
-    "id": "california-love",
-    "title": "California Love",
-    "artist": "2Pac",
-    "album": "All Eyez on Me",
-    "genre": "Hip Hop",
+    "id": "likethis",
+    "title": "Like This",
+    "artist": "Kaneezy",
+    "album": "Like This",
+    "genre": "Rap",
     "art": "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=300&q=80",
-    "src": "/tracks/california-love.mp3",
-    "tags": ["classic", "west coast", "hiphop"]
+    "src": "likethis.mp3",
+    "tags": ["west coast", "rap"]
   },
   {
     "id": "sunflower",

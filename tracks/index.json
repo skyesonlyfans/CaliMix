@@ -7,7 +7,10 @@
     "genre": "Rap",
     "art": "https://imgs.search.brave.com/QDILWbvbZpK3CSbW7q8yz5rFWrccsGz4GcAlXVEdU5c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pczEt/c3NsLm16c3RhdGlj/LmNvbS9pbWFnZS90/aHVtYi9NdXNpYzEy/OC92NC8yMS85YS8z/Yi8yMTlhM2IxNi0y/NjE1LWVmZTctODQw/OC02OTgxZjBiZWZi/ZjAvc291cmNlLzIw/MHgyMDBiYi5qcGc",
     "src": "/tracks/Funked out Pool Parties.mp3",
-    "tags": ["summer", "rap"]
+    "tags": [
+      "summer",
+      "rap"
+    ]
   },
   {
     "id": "likethis",
@@ -17,7 +20,10 @@
     "genre": "Rap",
     "art": "/tracks/art/likethis.png",
     "src": "/tracks/likethis.mp3",
-    "tags": ["west coast", "rap"]
+    "tags": [
+      "west coast",
+      "rap"
+    ]
   },
   {
     "id": "soruff",
@@ -27,7 +33,9 @@
     "genre": "Rap",
     "art": "https://lh3.googleusercontent.com/Zscde3aCYEL4cLLm_XzC0DH1_iGJRxTFJx-3xJa9wR2b9XMqpxgsgAzwOArdeSImj3fN2m-0sxyrJKf7=w544-h544-l90-rj",
     "src": "/tracks/So ruff.mp3",
-    "tags": ["rap"]
+    "tags": [
+      "rap"
+    ]
   },
   {
     "id": "west-coast",
@@ -37,7 +45,10 @@
     "genre": "Rap",
     "art": "https://lh3.googleusercontent.com/c9xGti067x2SCQx-0jcMHsZfxgY9gxlgmBozEanKt45jAYxquub-nq6BsIjCHb9A7GkmilmGc9d3HfjS=w544-h544-l90-rj",
     "src": "/tracks/backstroke.mp3",
-    "tags": ["rap", "cali"]
+    "tags": [
+      "rap",
+      "cali"
+    ]
   },
   {
     "id": "wontfold",
@@ -47,9 +58,12 @@
     "genre": "Rap",
     "art": "https://imgs.search.brave.com/tt_-n2q06XwH1ygwGcCitrW3O-LSDOcLE3DXen4QQwg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnl0/aW1nLmNvbS92aS9Y/WFZuMHE4R1Q4RS9o/cWRlZmF1bHQuanBn",
     "src": "/tracks/wontfold.mp3",
-    "tags": ["rap", "cali"]
-    },
-    {
+    "tags": [
+      "rap",
+      "cali"
+    ]
+  },
+  {
     "id": "GlitterGold",
     "title": "Glitter & Gold (feat. Rocci)",
     "artist": "RAMIREZ",
@@ -57,9 +71,12 @@
     "genre": "Rap",
     "art": "https://i1.sndcdn.com/artworks-tycEMUntk9sgJ3Ar-8rGKhg-t1080x1080.jpg",
     "src": "/tracks/glitterandgold.m4a",
-    "tags": ["rap", "cali"]
-    },
-    {
+    "tags": [
+      "rap",
+      "cali"
+    ]
+  },
+  {
     "id": "ROCKIN",
     "title": "ROCKIN",
     "artist": "Shoreline Mafia",
@@ -67,9 +84,12 @@
     "genre": "Rap",
     "art": "https://i1.sndcdn.com/artworks-v3JpFCLuUFVL-0-t500x500.jpg",
     "src": "/tracks/ROCKIN.m4a",
-    "tags": ["west coast", "rap"]
-    },
-    {
+    "tags": [
+      "west coast",
+      "rap"
+    ]
+  },
+  {
     "id": "backtocali",
     "title": "Goin Back to Cali",
     "artist": "Notorious B.I.G",
@@ -77,6 +97,9 @@
     "genre": "Rap",
     "art": "https://i1.sndcdn.com/artworks-000594962994-tbzpj9-t500x500.jpg",
     "src": "/tracks/backtocali.m4a",
-    "tags": ["west coast", "rap"]
-    }
+    "tags": [
+      "west coast",
+      "rap"
+    ]
+  }
 ]

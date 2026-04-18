@@ -5,7 +5,7 @@
     "artist": "Ramirez",
     "album": "Blood Diamonds",
     "genre": "Rap",
-    "art": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80",
+    "art": "https://imgs.search.brave.com/QDILWbvbZpK3CSbW7q8yz5rFWrccsGz4GcAlXVEdU5c/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pczEt/c3NsLm16c3RhdGlj/LmNvbS9pbWFnZS90/aHVtYi9NdXNpYzEy/OC92NC8yMS85YS8z/Yi8yMTlhM2IxNi0y/NjE1LWVmZTctODQw/OC02OTgxZjBiZWZi/ZjAvc291cmNlLzIw/MHgyMDBiYi5qcGc",
     "src": "/tracks/Funked out Pool Parties.mp3",
     "tags": ["summer", "rap"]
   },
@@ -16,7 +16,7 @@
     "album": "Like This",
     "genre": "Rap",
     "art": "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=300&q=80",
-    "src": "likethis.mp3",
+    "src": "/tracks/likethis.mp3",
     "tags": ["west coast", "rap"]
   },
   {

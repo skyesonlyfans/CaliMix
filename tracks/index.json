@@ -48,5 +48,15 @@
     "art": "https://imgs.search.brave.com/tt_-n2q06XwH1ygwGcCitrW3O-LSDOcLE3DXen4QQwg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnl0/aW1nLmNvbS92aS9Y/WFZuMHE4R1Q4RS9o/cWRlZmF1bHQuanBn",
     "src": "/tracks/wontfold.mp3",
     "tags": ["rap", "cali"]
-    }
+    },
+    {
+    "id": "GlitterGold",
+    "title": "Glitter & Gold (feat. Rocci)",
+    "artist": "RAMIREZ",
+    "album": "Playas Manual",
+    "genre": "Rap",
+    "art": "https://i1.sndcdn.com/artworks-tycEMUntk9sgJ3Ar-8rGKhg-t1080x1080.jpg",
+    "src": "/tracks/glitterandgold.m4a",
+    "tags": ["rap", "cali"]
+    },
 ]

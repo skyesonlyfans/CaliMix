@@ -1,427 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CaliMix by Skye &lt;3</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CaliMix by Skye</title>
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
 <style>
 :root{
---primary:#d53369;
---secondary:#cbad6d;
---bg-gradient:linear-gradient(135deg,#1a0b2e 0%,#4a154b 50%,#1e1333 100%);
---glass-bg:rgba(255,255,255,.05);
---glass-border:rgba(255,255,255,.1);
---glass-shadow:0 8px 32px rgba(0,0,0,.37);
---text-main:#fff;
---text-muted:#b3b3b3;
---accent:#ff007f;
+--primary:#ff007f;
+--secondary:#7f5cff;
+--glass:rgba(255,255,255,.06);
+--border:rgba(255,255,255,.12);
+--text:#ffffff;
+--muted:#a7a7a7;
 }
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:'Poppins',sans-serif;
-user-select:none;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins,sans-serif}
 
 body{
-background:var(--bg-gradient);
-color:var(--text-main);
-min-height:100vh;
-display:flex;
-flex-direction:column;
-background-attachment:fixed;
-}
-
-/* glass UI */
-
-.glass{
-background:var(--glass-bg);
-backdrop-filter:blur(12px);
-border:1px solid var(--glass-border);
-border-radius:16px;
-box-shadow:var(--glass-shadow);
-}
-
-.glass-btn{
-background:rgba(255,255,255,.1);
-border:1px solid rgba(255,255,255,.2);
-color:white;
-padding:10px 20px;
-border-radius:50px;
-cursor:pointer;
-transition:.3s;
-font-weight:600;
-display:inline-flex;
-gap:8px;
-align-items:center;
-}
-
-.glass-btn:hover:not(:disabled){
-background:rgba(255,255,255,.2);
-transform:translateY(-2px);
-}
-
-.glass-input{
-width:100%;
-background:rgba(0,0,0,.2);
-border:1px solid var(--glass-border);
-color:white;
-padding:12px 20px;
-border-radius:12px;
-outline:none;
-font-size:16px;
-margin-bottom:15px;
-}
-
-/* layout */
-
-#app-container{
-display:flex;
-flex:1;
+background:linear-gradient(135deg,#160a2b,#2b124f,#160a2b);
+color:var(--text);
 height:100vh;
-overflow:hidden;
-}
-
-/* auth */
-
-#auth-screen{
-position:fixed;
-inset:0;
 display:flex;
-justify-content:center;
-align-items:center;
-z-index:1000;
-background:var(--bg-gradient);
+overflow:hidden
 }
 
-.auth-card{
-padding:40px;
-text-align:center;
-max-width:400px;
-width:90%;
-}
-
-/* sidebar */
-
-#sidebar{
-width:250px;
-padding:20px;
+.sidebar{
+width:260px;
+backdrop-filter:blur(18px);
+background:var(--glass);
+border-right:1px solid var(--border);
+padding:24px;
 display:flex;
-flex-direction:column;
-gap:10px;
-border-right:1px solid var(--glass-border);
+flex-direction:column
 }
 
-/* main */
-
-#main-content{
-flex:1;
-padding:30px;
-overflow-y:auto;
-padding-bottom:120px;
+.brand{
+font-size:28px;
+font-weight:800;
+margin-bottom:32px;
+background:linear-gradient(90deg,#fff,var(--primary));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent
 }
 
-.view{display:none;}
-.view.active{display:block;}
-
-/* song grid */
-
-.song-grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-gap:20px;
-margin-top:20px;
-}
-
-.song-card{
-padding:15px;
+.navItem{
+padding:14px 18px;
 border-radius:12px;
+margin-bottom:8px;
 cursor:pointer;
-transition:.3s;
-position:relative;
-text-align:center;
-}
-
-.song-card:hover{
-transform:translateY(-5px);
-background:rgba(255,255,255,.08);
-}
-
-.song-card img{
-width:100%;
-aspect-ratio:1;
-border-radius:8px;
-object-fit:cover;
-margin-bottom:10px;
-}
-
-/* player */
-
-#player-bar{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:90px;
-padding:0 20px;
+color:var(--muted);
 display:flex;
 align-items:center;
-justify-content:space-between;
-border-top:1px solid var(--glass-border);
-transform:translateY(100%);
-transition:.3s;
+gap:10px
 }
 
-#player-bar.visible{
-transform:translateY(0);
+.navItem:hover{background:rgba(255,255,255,.12);color:white}
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column
 }
+
+.header{
+padding:24px;
+font-size:22px;
+font-weight:600
+}
+
+.library{
+flex:1;
+overflow-y:auto;
+padding:20px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:18px
+}
+
+.track{
+padding:16px;
+background:var(--glass);
+border:1px solid var(--border);
+border-radius:16px;
+cursor:pointer;
+transition:.25s
+}
+
+.track:hover{
+transform:translateY(-4px);
+background:rgba(255,255,255,.1)
+}
+
+.trackTitle{
+font-weight:600;
+margin-bottom:6px
+}
+
+.player{
+height:90px;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(20px);
+display:flex;
+align-items:center;
+padding:0 30px;
+justify-content:space-between
+}
+
+.controls{
+display:flex;
+align-items:center;
+gap:18px
+}
+
+.material-icons-round{
+cursor:pointer;font-size:32px}
+
+.progress{
+flex:1;
+margin:0 20px
+}
+
+input[type=range]{width:100%}
+
 </style>
 </head>
-
 <body>
 
-<div id="auth-screen" class="glass">
-<div class="auth-card glass">
-<h1>CaliMix by Skye &lt;3</h1>
-<p>Your personal soundscape.</p>
+<div class="sidebar">
+<div class="brand">CaliMix</div>
+<div class="navItem"><span class="material-icons-round">library_music</span> Library</div>
+</div>
 
-<button id="btn-login" class="glass-btn">
-<span class="material-icons-round">login</span>
-Continue with Google
-</button>
+<div class="main">
+<div class="header">Streaming from Backblaze B2</div>
+<div id="library" class="library"></div>
 
-<button id="btn-guest" class="glass-btn" style="background:transparent;">
-Continue as Guest
-</button>
+<div class="player">
+<div class="controls">
+<span id="playBtn" class="material-icons-round">play_circle</span>
+<span id="pauseBtn" class="material-icons-round">pause_circle</span>
+</div>
 
+<div class="progress">
+<input id="seek" type="range" min="0" max="100" value="0">
+</div>
+
+<div id="nowPlaying">Nothing playing</div>
 </div>
 </div>
 
+<audio id="audio"></audio>
 
-<div id="app-container" style="display:none;">
+<script>
 
-<nav id="sidebar" class="glass">
-<div class="nav-brand">CaliMix</div>
+/* CONFIG */
 
-<div class="nav-item active" data-target="home-view">
-<span class="material-icons-round">home</span>
-Home
-</div>
+const BUCKET_NAME="calimix";
+const ENDPOINT="https://s3.us-east-005.backblazeb2.com";
 
-<div class="nav-item" data-target="search-view">
-<span class="material-icons-round">search</span>
-Search
-</div>
+/* DO NOT expose application keys in frontend */
+/* bucket must be public */
 
-</nav>
+const audio=document.getElementById("audio");
+const library=document.getElementById("library");
+const playBtn=document.getElementById("playBtn");
+const pauseBtn=document.getElementById("pauseBtn");
+const seek=document.getElementById("seek");
+const nowPlaying=document.getElementById("nowPlaying");
 
+let tracks=[];
 
-<main id="main-content">
-
-<div id="home-view" class="view active">
-<h2>Featured Tracks</h2>
-<div id="home-song-grid" class="song-grid"></div>
-</div>
-
-<div id="search-view" class="view">
-<h2>Search</h2>
-<input id="search-input" class="glass-input">
-<div id="search-song-grid" class="song-grid"></div>
-</div>
-
-</main>
-</div>
-
-
-<div id="player-bar" class="glass">
-<div>
-<h4 id="player-title">No Track Selected</h4>
-</div>
-</div>
-
-
-
-<script type="module">
-
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-
-import {
-getAuth,
-signInWithPopup,
-GoogleAuthProvider,
-onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-import {
-getFirestore,
-collection,
-getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-import {
-S3Client,
-ListObjectsV2Command
-}
-from "https://cdn.jsdelivr.net/npm/@aws-sdk/client-s3@3.525.0/+esm";
-
-
-/* firebase */
-
-const firebaseConfig={
-apiKey:"AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao",
-authDomain:"calimix.firebaseapp.com",
-projectId:"calimix"
-};
-
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-
-
-/* BACKBLAZE B2 CONFIG (FIXED) */
-
-const s3Client=new S3Client({
-endpoint:"https://s3.us-east-005.backblazeb2.com",
-region:"us-east-005",
-forcePathStyle:true,
-credentials:{
-accessKeyId:"0058aaeb5bf587b000000000b",
-secretAccessKey:"K005pe+xi32OYTYjigts4sMlFfsgovo"
-}
-});
-
-const bucketName="calimix";
-
-
-let globalSongs=[];
-
-
-/* login */
-
-document.getElementById("btn-login")
-.onclick=()=>{
-
-signInWithPopup(auth,new GoogleAuthProvider());
-
-};
-
-
-document.getElementById("btn-guest")
-.onclick=enterApp;
-
-
-onAuthStateChanged(auth,user=>{
-if(user) enterApp();
-});
-
-
-/* enter */
-
-function enterApp(){
-
-document.getElementById("auth-screen").style.display="none";
-document.getElementById("app-container").style.display="flex";
-
-fetchSongs();
-
-}
-
-
-/* FETCH SONGS FROM B2 */
-
-async function fetchSongs(){
+async function loadTracks(){
 
 try{
 
-const command=new ListObjectsV2Command({
-Bucket:bucketName
-});
+const res=await fetch(`${ENDPOINT}/${BUCKET_NAME}?list-type=2`);
 
-const response=await s3Client.send(command);
+const text=await res.text();
 
-globalSongs=(response.Contents||[])
-.filter(x=>x.Key.endsWith(".mp3"))
-.map(file=>({
+const parser=new DOMParser();
+const xml=parser.parseFromString(text,"text/xml");
 
-title:file.Key.replace(".mp3",""),
-artist:"Unknown Artist",
-audioUrl:
-`https://f005.backblazeb2.com/file/${bucketName}/${encodeURIComponent(file.Key)}`
+const keys=[...xml.getElementsByTagName("Key")]
+.map(el=>el.textContent)
+.filter(name=>name.endsWith(".mp3"));
 
+tracks=keys.map(name=>({
+name,
+url:`${ENDPOINT}/${BUCKET_NAME}/${name}`
 }));
 
-renderSongs(globalSongs);
+renderLibrary();
 
-}
-
-catch(err){
-
+}catch(err){
 console.error(err);
-
-document.getElementById("home-song-grid")
-.innerHTML="B2 connection failed ❌";
-
+library.innerHTML="Failed loading bucket list. Make bucket public.";
+}
 }
 
-}
+function renderLibrary(){
 
+library.innerHTML="";
 
-/* render */
+tracks.forEach(track=>{
 
-function renderSongs(list){
+const card=document.createElement("div");
+card.className="track";
 
-const container=
-document.getElementById("home-song-grid");
-
-container.innerHTML="";
-
-list.forEach(song=>{
-
-const div=document.createElement("div");
-
-div.className="song-card glass";
-
-div.innerHTML=`
-<h4>${song.title}</h4>
+card.innerHTML=`
+<div class="trackTitle">${track.name}</div>
+<div class="trackMeta">MP3 Audio</div>
 `;
 
-div.onclick=()=>playTrack(song);
+card.onclick=()=>playTrack(track);
 
-container.appendChild(div);
+library.appendChild(card);
 
 });
 
 }
 
+function playTrack(track){
 
-/* player */
-
-const audio=new Audio();
-
-function playTrack(song){
-
-audio.src=song.audioUrl;
-
-audio.play();
-
-document.getElementById("player-title")
-.innerText=song.title;
-
-document.getElementById("player-bar")
-.classList.add("visible");
+ audio.src=track.url;
+ audio.play();
+ nowPlaying.textContent=track.name;
 
 }
 
-</script>
+playBtn.onclick=()=>audio.play();
+pauseBtn.onclick=()=>audio.pause();
 
+seek.oninput=e=>{
+
+if(audio.duration){
+ audio.currentTime=(audio.duration*e.target.value)/100;
+}
+
+};
+
+audio.ontimeupdate=()=>{
+
+if(audio.duration){
+ seek.value=(audio.currentTime/audio.duration)*100;
+}
+
+};
+
+loadTracks();
+
+</script>
 </body>
 </html>

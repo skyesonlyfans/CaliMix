@@ -6,7 +6,6 @@
     <title>CaliMix by Skye &lt;3</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     
     <style>
         :root {
@@ -157,7 +156,7 @@
             flex: 1;
             padding: 30px;
             overflow-y: auto;
-            padding-bottom: 120px; /* Space for player */
+            padding-bottom: 120px;
         }
         .view { display: none; }
         .view.active { display: block; }
@@ -209,8 +208,10 @@
         .save-btn.saved { color: var(--accent); }
 
         /* Admin UI */
-        .admin-panel { max-width: 600px; margin: 0 auto; }
-        .cover-preview { width: 150px; height: 150px; border-radius: 12px; object-fit: cover; margin-bottom: 15px; border: 2px dashed var(--glass-border); display: flex; align-items: center; justify-content: center; }
+        .admin-panel { margin: 0 auto; }
+        #admin-track-list::-webkit-scrollbar { width: 8px; }
+        #admin-track-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
+        #admin-track-list::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
         /* Bottom Player */
         #player-bar {
@@ -294,7 +295,7 @@
             </div>
             <div class="nav-item" id="nav-admin" data-target="admin-view" style="display: none; margin-top: auto;">
                 <span class="material-icons-round">admin_panel_settings</span>
-                <span>Admin</span>
+                <span>Admin Editor</span>
             </div>
             <div class="nav-item" id="btn-logout" style="display: none;">
                 <span class="material-icons-round">logout</span>
@@ -312,41 +313,28 @@
                     </button>
                 </div>
                 <div id="home-song-grid" class="song-grid">
-                    </div>
+                </div>
             </div>
 
             <div id="search-view" class="view">
                 <h2>Search</h2>
                 <input type="text" id="search-input" class="glass-input" placeholder="Search for songs, artists, or mixes...">
                 <div id="search-song-grid" class="song-grid">
-                    </div>
+                </div>
             </div>
 
             <div id="saved-view" class="view">
                 <h2>Your Saved Songs</h2>
                 <div id="saved-song-grid" class="song-grid">
-                    </div>
+                </div>
             </div>
 
             <div id="admin-view" class="view">
-                <div class="admin-panel glass" style="padding: 30px;">
-                    <h2>Upload New Track to B2</h2>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Upload MP3. Metadata is extracted automatically if available.</p>
-                    
-                    <input type="file" id="admin-file-input" accept="audio/mp3" class="glass-input" style="padding: 8px;">
-                    
-                    <div style="display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px;">
-                        <img id="admin-cover-preview" class="cover-preview" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Cover Preview">
-                        <div style="flex: 1;">
-                            <input type="text" id="admin-title" class="glass-input" placeholder="Track Title">
-                            <input type="text" id="admin-artist" class="glass-input" placeholder="Artist Name">
+                <div class="admin-panel glass" style="padding: 30px; max-width: 800px; max-height: 80vh; display: flex; flex-direction: column;">
+                    <h2>Manage B2 Track Metadata</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Edit titles, artists, and cover URLs for the MP3s loaded directly from your B2 bucket.</p>
+                    <div id="admin-track-list" style="display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 10px;">
                         </div>
-                    </div>
-                    
-                    <button id="btn-upload" class="glass-btn" style="width: 100%; justify-content: center; background: var(--accent); border-color: var(--accent);">
-                        <span class="material-icons-round">cloud_upload</span> Upload Track to CaliMix
-                    </button>
-                    <p id="upload-status" style="margin-top: 15px; text-align: center; font-size: 14px;"></p>
                 </div>
             </div>
 
@@ -379,17 +367,16 @@
     </div>
 
     <script type="module">
-        // Firebase Core and Firestore (Database)
+        // Firebase Core and Firestore
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         
-        // AWS SDK (for Backblaze B2 S3 Compatibility)
-        import { S3Client, PutObjectCommand } from "https://esm.sh/@aws-sdk/client-s3@3.525.0";
+        // AWS SDK (List Objects for B2)
+        import { S3Client, ListObjectsV2Command } from "https://esm.sh/@aws-sdk/client-s3@3.525.0";
 
         // --- Configuration ---
         
-        // Firebase Configuration (Database & Auth)
         const firebaseConfig = {
             apiKey: "AIzaSyAsTKPPWmwJPIvcQUrcrtpIchs2fgkCjao",
             authDomain: "calimix.firebaseapp.com",
@@ -399,15 +386,13 @@
             measurementId: "G-0YWBGP7FFX"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Backblaze B2 (S3) Configuration
         const b2Config = {
             endpoint: "https://s3.us-east-005.backblazeb2.com",
-            region: "us-east-005", // Standard S3 region format required by the SDK
+            region: "us-east-005",
             bucketName: "calimix",
             credentials: {
                 accessKeyId: "0058aaeb5bf587b000000000a", 
@@ -425,10 +410,8 @@
         let userSavedSongIds = [];
         const audio = new Audio();
         
-        // Admin Access Settings
         const ADMIN_EMAIL = "tylern662@gmail.com";
 
-        // DOM Elements
         const elAppContainer = document.getElementById('app-container');
         const elAuthScreen = document.getElementById('auth-screen');
         const elNavAdmin = document.getElementById('nav-admin');
@@ -441,20 +424,16 @@
             setupPlayerControls();
             setupSearch();
 
-            // Handle Auth State
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     currentUser = user;
                     elNavSaved.style.display = 'flex';
                     elBtnLogout.style.display = 'flex';
                     
-                    // Admin Role Check
                     if (user.email === ADMIN_EMAIL) {
                         elNavAdmin.style.display = 'flex';
-                        setupAdminPanel();
                     } else {
                         elNavAdmin.style.display = 'none';
-                        // Boot them out of admin view if they somehow got there
                         if (document.getElementById('admin-view').classList.contains('active')) {
                             switchView('home-view');
                         }
@@ -470,7 +449,6 @@
                 }
             });
 
-            // Auth Buttons
             document.getElementById('btn-login').addEventListener('click', () => {
                 const provider = new GoogleAuthProvider();
                 signInWithPopup(auth, provider).catch(err => alert("Login Error: " + err.message));
@@ -487,7 +465,6 @@
             elAuthScreen.style.display = 'none';
             elAppContainer.style.display = 'flex';
             
-            // Auto route to admin if they are admin and URL has /admin
             const wantsAdmin = window.location.pathname.includes('admin') || window.location.hash.includes('admin');
             if (wantsAdmin && currentUser && currentUser.email === ADMIN_EMAIL) {
                 switchView('admin-view');
@@ -498,7 +475,6 @@
             fetchSongs();
         }
 
-        // Navigation Logic
         function setupNavigation() {
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', (e) => {
@@ -525,18 +501,61 @@
             if(viewId === 'saved-view') renderSongs(globalSongs.filter(s => userSavedSongIds.includes(s.id)), 'saved-song-grid');
         }
 
-        // Data Fetching & Rendering
+        // --- Core Engine: Fetching from B2 & Firestore Merging ---
         async function fetchSongs() {
             try {
-                const q = query(collection(db, "songs"), orderBy("createdAt", "desc"));
+                // 1. Fetch File List directly from Backblaze B2 root
+                const b2Command = new ListObjectsV2Command({ Bucket: b2Config.bucketName });
+                const b2Response = await s3Client.send(b2Command);
+                
+                // Filter specifically for MP3s
+                const b2Files = (b2Response.Contents || []).filter(file => file.Key.toLowerCase().endsWith('.mp3'));
+
+                // 2. Fetch User-defined metadata overrides from Firestore
+                const q = query(collection(db, "songs"));
                 const querySnapshot = await getDocs(q);
-                globalSongs = [];
+                const firestoreData = {};
                 querySnapshot.forEach((doc) => {
-                    globalSongs.push({ id: doc.id, ...doc.data() });
+                    firestoreData[doc.id] = doc.data();
                 });
+
+                // 3. Map together to build the final list
+                globalSongs = b2Files.map((file, index) => {
+                    const key = file.Key;
+                    const metadata = firestoreData[key] || {};
+                    
+                    return {
+                        id: key, // We use the exact B2 filename key as the unique ID
+                        key: key,
+                        title: metadata.title || key.replace('.mp3', ''),
+                        artist: metadata.artist || 'Unknown Artist',
+                        coverUrl: metadata.coverUrl || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+                        // Direct download link logic as requested
+                        audioUrl: `https://f005.backblazeb2.com/file/calimix/${encodeURIComponent(key)}`,
+                        safeId: `admin_input_${index}` 
+                    };
+                });
+
+                // Trigger UI Renders
                 renderSongs(globalSongs, 'home-song-grid');
+
+                const searchInput = document.getElementById('search-input').value.toLowerCase();
+                if (searchInput) {
+                    const filtered = globalSongs.filter(s => s.title.toLowerCase().includes(searchInput) || s.artist.toLowerCase().includes(searchInput));
+                    renderSongs(filtered, 'search-song-grid');
+                }
+
+                if (document.getElementById('saved-view').classList.contains('active')) {
+                    renderSongs(globalSongs.filter(s => userSavedSongIds.includes(s.id)), 'saved-song-grid');
+                }
+
+                if (currentUser && currentUser.email === ADMIN_EMAIL) {
+                    renderAdminList();
+                }
+
             } catch (err) {
-                console.error("Error fetching songs:", err);
+                console.error("Error fetching tracks from B2:", err);
+                document.getElementById('home-song-grid').innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted);">Error communicating with B2 or Firebase: ${err.message}</p>`;
             }
         }
 
@@ -596,7 +615,7 @@
                     <div class="save-btn ${isSaved ? 'saved' : ''}" data-id="${song.id}">
                         <span class="material-icons-round" style="font-size: 18px;">favorite</span>
                     </div>
-                    <img src="${song.coverUrl || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='}" alt="Cover">
+                    <img src="${song.coverUrl}" alt="Cover">
                     <h4>${song.title}</h4>
                     <p>${song.artist}</p>
                 `;
@@ -631,7 +650,7 @@
             });
         }
 
-        // Audio Player Logic
+        // --- Audio Player Logic ---
         const elPlayerBar = document.getElementById('player-bar');
         const btnPlayPause = document.getElementById('btn-play-pause');
         const progressBarContainer = document.getElementById('progress-bar-container');
@@ -644,7 +663,7 @@
             
             document.getElementById('player-title').innerText = song.title;
             document.getElementById('player-artist').innerText = song.artist;
-            document.getElementById('player-cover').src = song.coverUrl || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+            document.getElementById('player-cover').src = song.coverUrl;
             
             elPlayerBar.classList.add('visible');
             btnPlayPause.innerText = 'pause_circle_filled';
@@ -703,134 +722,79 @@
             return `${min}:${sec < 10 ? '0' : ''}${sec}`;
         }
 
-        // Admin Functionality (Backblaze B2 Upload)
-        let pendingAudioFile = null;
-        let pendingCoverDataUrl = null;
+        // --- Simplified Admin Functionality ---
+        function renderAdminList() {
+            const container = document.getElementById('admin-track-list');
+            container.innerHTML = '';
 
-        function setupAdminPanel() {
-            const fileInput = document.getElementById('admin-file-input');
-            const titleInput = document.getElementById('admin-title');
-            const artistInput = document.getElementById('admin-artist');
-            const coverPreview = document.getElementById('admin-cover-preview');
-            const btnUpload = document.getElementById('btn-upload');
-            const statusText = document.getElementById('upload-status');
+            if (globalSongs.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted);">No MP3 files detected in the B2 bucket.</p>';
+                return;
+            }
 
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                pendingAudioFile = file;
-                
-                // Extract ID3 metadata
-                window.jsmediatags.read(file, {
-                    onSuccess: function(tag) {
-                        const tags = tag.tags;
-                        titleInput.value = tags.title || file.name.replace('.mp3', '');
-                        artistInput.value = tags.artist || "Unknown Artist";
-                        
-                        if (tags.picture) {
-                            const data = tags.picture.data;
-                            const format = tags.picture.format;
-                            let base64String = "";
-                            for (let i = 0; i < data.length; i++) {
-                                base64String += String.fromCharCode(data[i]);
-                            }
-                            pendingCoverDataUrl = `data:${format};base64,${window.btoa(base64String)}`;
-                            coverPreview.src = pendingCoverDataUrl;
-                        } else {
-                            pendingCoverDataUrl = null;
-                            coverPreview.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-                        }
-                    },
-                    onError: function(error) {
-                        console.log('Error reading tags:', error);
-                        titleInput.value = file.name.replace('.mp3', '');
-                        artistInput.value = "Unknown Artist";
-                    }
-                });
+            globalSongs.forEach(song => {
+                const row = document.createElement('div');
+                row.className = 'glass';
+                row.style.padding = '15px';
+                row.style.display = 'flex';
+                row.style.gap = '15px';
+                row.style.alignItems = 'center';
+                row.style.background = 'rgba(0,0,0,0.2)';
+
+                row.innerHTML = `
+                    <img src="${song.coverUrl}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-size: 11px; color: var(--accent); font-weight: 600;">Bucket Key: ${song.key}</div>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" class="glass-input" style="margin: 0; padding: 8px; font-size: 13px; flex: 1;" placeholder="Track Title" value="${song.title}" id="${song.safeId}-title">
+                            <input type="text" class="glass-input" style="margin: 0; padding: 8px; font-size: 13px; flex: 1;" placeholder="Artist" value="${song.artist}" id="${song.safeId}-artist">
+                        </div>
+                        <input type="text" class="glass-input" style="margin: 0; padding: 8px; font-size: 13px;" placeholder="Cover Image URL (Optional)" value="${song.coverUrl !== 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' ? song.coverUrl : ''}" id="${song.safeId}-cover">
+                    </div>
+                    <button class="glass-btn save-meta-btn" data-key="${song.key}" data-safeid="${song.safeId}" style="height: 40px; padding: 0 15px;"><span class="material-icons-round">save</span></button>
+                `;
+                container.appendChild(row);
             });
 
-            btnUpload.addEventListener('click', async () => {
-                if (!pendingAudioFile) return alert('Please select an MP3 file first.');
-                
-                const title = titleInput.value.trim();
-                const artist = artistInput.value.trim();
-                if (!title) return alert('Title is required');
-
-                btnUpload.disabled = true;
-                btnUpload.innerHTML = '<span class="material-icons-round">hourglass_empty</span> Uploading to B2...';
-                statusText.innerText = "Uploading audio file to Backblaze B2...";
-
-                try {
-                    // Generate unique filenames
-                    const timestamp = Date.now();
-                    const audioKey = `songs/${timestamp}_${pendingAudioFile.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+            document.querySelectorAll('.save-meta-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const key = btn.getAttribute('data-key');
+                    const safeId = btn.getAttribute('data-safeid');
                     
-                    // 1. Upload Audio to B2
-                    const audioCommand = new PutObjectCommand({
-                        Bucket: b2Config.bucketName,
-                        Key: audioKey,
-                        Body: pendingAudioFile,
-                        ContentType: pendingAudioFile.type || "audio/mpeg"
-                    });
-                    
-                    await s3Client.send(audioCommand);
-                    const audioUrl = `${b2Config.endpoint}/${b2Config.bucketName}/${audioKey}`;
+                    const title = document.getElementById(`${safeId}-title`).value.trim();
+                    const artist = document.getElementById(`${safeId}-artist`).value.trim();
+                    let coverUrl = document.getElementById(`${safeId}-cover`).value.trim();
 
-                    // 2. Upload Cover Art to B2 (if exists)
-                    let coverUrl = null;
-                    if (pendingCoverDataUrl) {
-                        statusText.innerText = "Uploading album artwork to B2...";
-                        
-                        // Convert base64 to Blob for S3 upload
-                        const res = await fetch(pendingCoverDataUrl);
-                        const blob = await res.blob();
-                        const coverKey = `covers/${timestamp}_cover.jpg`;
-
-                        const coverCommand = new PutObjectCommand({
-                            Bucket: b2Config.bucketName,
-                            Key: coverKey,
-                            Body: blob,
-                            ContentType: blob.type
-                        });
-
-                        await s3Client.send(coverCommand);
-                        coverUrl = `${b2Config.endpoint}/${b2Config.bucketName}/${coverKey}`;
+                    if (!coverUrl) {
+                        coverUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
                     }
 
-                    // 3. Save metadata to Firestore
-                    statusText.innerText = "Saving track data to Firebase...";
-                    await addDoc(collection(db, "songs"), {
-                        title,
-                        artist,
-                        audioUrl,
-                        coverUrl,
-                        createdAt: new Date().getTime()
-                    });
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-icons-round">sync</span>';
 
-                    statusText.innerText = "Upload Complete!";
-                    statusText.style.color = "#00ff88";
-                    
-                    // Reset Form
-                    setTimeout(() => {
-                        fileInput.value = '';
-                        titleInput.value = '';
-                        artistInput.value = '';
-                        coverPreview.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-                        pendingAudioFile = null;
-                        pendingCoverDataUrl = null;
-                        btnUpload.disabled = false;
-                        btnUpload.innerHTML = '<span class="material-icons-round">cloud_upload</span> Upload Track to CaliMix';
-                        statusText.innerText = "";
-                        fetchSongs(); 
-                    }, 3000);
+                    try {
+                        // Map the specific B2 Key into Firebase Database 
+                        await setDoc(doc(db, "songs", key), {
+                            title, artist, coverUrl
+                        }, { merge: true });
+                        
+                        btn.innerHTML = '<span class="material-icons-round">check</span>';
+                        btn.style.color = '#00ff88';
+                        
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.innerHTML = '<span class="material-icons-round">save</span>';
+                            btn.style.color = '';
+                            fetchSongs(); // Re-fetch to apply UI changes seamlessly
+                        }, 1500);
 
-                } catch (error) {
-                    console.error("Upload error:", error);
-                    statusText.innerText = "Error: " + error.message;
-                    statusText.style.color = "#ff4444";
-                    btnUpload.disabled = false;
-                    btnUpload.innerHTML = '<span class="material-icons-round">cloud_upload</span> Upload Track to CaliMix';
-                }
+                    } catch(err) {
+                        console.error("Error saving:", err);
+                        alert("Error saving metadata: " + err.message);
+                        btn.disabled = false;
+                        btn.innerHTML = '<span class="material-icons-round">save</span>';
+                    }
+                });
             });
         }
 

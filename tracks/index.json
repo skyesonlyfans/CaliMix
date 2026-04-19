@@ -114,5 +114,18 @@
       "west coast",
       "rap"
     ]
+  },
+  {
+    "id": "SkysTheLimit",
+    "title": "Sky's The Limit",
+    "artist": "Notorious B.I.G",
+    "album": "Greatest Hits",
+    "genre": "Rap",
+    "art": "https://imgs.search.brave.com/yYgKxFwK7eIBi-X3IEIXPJTT1xchmuUHhZJYtla935s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFFaS1zQ1VWaUwu/anBn",
+    "src": "/tracks/SkysTheLimit.mp3",
+    "tags": [
+      "west coast",
+      "rap"
+    ]
   }
 ]

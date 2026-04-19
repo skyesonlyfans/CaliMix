@@ -140,5 +140,44 @@
       "west coast",
       "rap"
       ]
-    }
+    },
+    {
+      "id": "lostcls",
+    "title": "Lost",
+    "artist": "Cali Life Style",
+    "album": "Lost",
+    "genre": "Rap",
+    "art": "https://imgs.search.brave.com/HgpJ70FETMvUoP9B1ZfT1VJTrGk0EfJP5dNb_eZtpKQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bXV6dGV4dC5jb20v/aS8zMjg0NzUxNzU2/MzczMzkyNTM0Ny5q/cGc",
+    "src": "/tracks/lostcls.m4a",
+    "tags": [
+      "west coast",
+      "rap"
+    ]
+  },
+  {
+    "id": "offtheground",
+    "title": "Off The Ground",
+    "artist": "HolyBrune",
+    "album": "N/A",
+    "genre": "RnB",
+    "art": "https://lh3.googleusercontent.com/JamxkuU-IhblTjormFj8DjSHr3p7GlXe0osK-Q7mEYO7aNckgN3QAmLM3ofqEYiHjOZwzG0yQB8QRD5J=w544-h544-l90-rj",
+    "src": "/tracks/offtheground.m4a",
+    "tags": [
+      "west coast",
+      "rnb"
+    ]
+  },
+  {
+    "id": "sofajoy",
+    "title": "Sofa Joy",
+    "artist": "Natanya",
+    "album": "Feline's Return",
+    "genre": "RnB",
+    "art": "https://imgs.search.brave.com/0S_KORvfKpZpVsFOjAkB3TEN3UIij2ZmwPrfm32d9Ws/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmF1/ZGlvbWFjay5jb20v/bmF0YW55YS1tdXNp/Yy80MjQzZjYxNzJk/LndlYnA_d2lkdGg9/MzYw",
+    "src": "/tracks/offtheground.m4a",
+    "tags": [
+      "west coast",
+      "rnb"
+    ]
+  },
 ]

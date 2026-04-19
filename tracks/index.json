@@ -127,9 +127,9 @@
       "west coast",
       "rap"
     ]
-    },
-    {
-      "id": "Distractions",
+  },
+  {
+    "id": "Distractions",
     "title": "Distractions",
     "artist": "Haiti Babii",
     "album": "Distractions",
@@ -139,10 +139,10 @@
     "tags": [
       "west coast",
       "rap"
-      ]
-    },
-    {
-      "id": "lostcls",
+    ]
+  },
+  {
+    "id": "lostcls",
     "title": "Lost",
     "artist": "Cali Life Style",
     "album": "Lost",
@@ -174,10 +174,10 @@
     "album": "Feline's Return",
     "genre": "RnB",
     "art": "https://imgs.search.brave.com/0S_KORvfKpZpVsFOjAkB3TEN3UIij2ZmwPrfm32d9Ws/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmF1/ZGlvbWFjay5jb20v/bmF0YW55YS1tdXNp/Yy80MjQzZjYxNzJk/LndlYnA_d2lkdGg9/MzYw",
-    "src": "/tracks/offtheground.m4a",
+    "src": "/tracks/sofajoy.mp3",
     "tags": [
       "west coast",
       "rnb"
     ]
-  },
+  }
 ]

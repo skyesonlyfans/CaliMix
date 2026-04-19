@@ -15,8 +15,8 @@
 
   <style>
     :root {
-      /* Glassmorphism Theme */
-      --glass-bg: rgba(20, 20, 25, 0.4);
+      /* Pink & Purple Glassmorphism Theme */
+      --glass-bg: rgba(25, 10, 35, 0.4);
       --glass-bg-hover: rgba(255, 255, 255, 0.1);
       --glass-bg-active: rgba(255, 255, 255, 0.15);
       --glass-border: rgba(255, 255, 255, 0.1);
@@ -24,16 +24,17 @@
       
       /* Colors */
       --text-primary: #ffffff;
-      --text-secondary: #a1a1aa;
-      --accent: #ff7b00; /* Sunset Orange */
-      --accent-hover: #ff9100;
+      --text-secondary: #cba6db;
+      --accent: #ff007f; /* Vibrant Pink */
+      --accent-hover: #ff3399;
+      --accent-purple: #9d00ff;
       
       /* Sizing */
       --radius-xl: 20px;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --player-h: 96px;
+      --player-h: calc(96px + env(safe-area-inset-bottom));
       --sidebar-w: 260px;
       
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -49,22 +50,22 @@
       color: var(--text-primary);
       overflow: hidden;
       -webkit-font-smoothing: antialiased;
-      background-color: #000;
+      background-color: #05000a;
     }
 
-    /* Animated Sunset/Beach Background */
+    /* Animated Pink/Purple Background */
     .app-background {
       position: fixed;
       inset: -50%;
       z-index: 0;
-      background: radial-gradient(circle at 50% 30%, #ff0055 0%, #ff7b00 25%, #240046 50%, #000000 80%);
-      animation: bgPulse 20s ease-in-out infinite alternate;
+      background: radial-gradient(circle at 50% 30%, rgba(255, 0, 127, 0.8) 0%, rgba(157, 0, 255, 0.6) 30%, rgba(26, 0, 51, 0.9) 60%, #05000a 100%);
+      animation: bgPulse 25s ease-in-out infinite alternate;
       pointer-events: none;
     }
 
     @keyframes bgPulse {
       0% { transform: scale(1) rotate(0deg); }
-      100% { transform: scale(1.1) rotate(2deg); }
+      100% { transform: scale(1.15) rotate(3deg); }
     }
 
     /* Utility / Reset */
@@ -93,14 +94,16 @@
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 64px;
-      background: rgba(10, 10, 15, 0.6);
+      height: calc(64px + env(safe-area-inset-top));
+      padding-top: env(safe-area-inset-top);
+      background: rgba(15, 5, 25, 0.6);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       z-index: 40;
       border-bottom: 1px solid var(--glass-border);
       align-items: center;
-      padding: 0 16px;
+      padding-left: 16px;
+      padding-right: 16px;
       justify-content: space-between;
     }
 
@@ -120,6 +123,7 @@
     
     .sidebar-inner {
       padding: 24px 16px;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -134,15 +138,15 @@
     }
     .brand-title {
       font-family: 'Pacifico', cursive;
-      font-size: 32px;
+      font-size: 34px;
       line-height: 1.2;
-      background: linear-gradient(135deg, #ff7b00, #ff0055);
+      background: linear-gradient(135deg, #ff007f, #9d00ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 4px 12px rgba(255, 123, 0, 0.2);
+      text-shadow: 0 4px 12px rgba(255, 0, 127, 0.3);
     }
     .brand-subtitle {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-secondary);
       font-weight: 500;
       margin-top: -4px;
@@ -153,7 +157,7 @@
     .search-container { position: relative; }
     .search-input {
       width: 100%;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-xl);
       padding: 12px 16px 12px 40px;
@@ -162,8 +166,8 @@
     }
     .search-input:focus {
       border-color: var(--glass-border-light);
-      background: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 0 2px rgba(255, 123, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 0 2px rgba(255, 0, 127, 0.3);
     }
     .search-icon {
       position: absolute;
@@ -204,7 +208,7 @@
       font-weight: 700;
     }
 
-    /* Footer */
+    /* Footer Buttons */
     .sidebar-footer {
       margin-top: auto;
       display: flex;
@@ -227,21 +231,22 @@
     .btn:hover { background: var(--glass-bg-active); border-color: var(--glass-border-light); transform: translateY(-1px); }
     .btn:active { transform: translateY(1px); }
     .btn.primary {
-      background: var(--accent);
-      border-color: var(--accent-hover);
+      background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+      border-color: transparent;
       color: white;
-      box-shadow: 0 4px 12px rgba(255, 123, 0, 0.3);
+      box-shadow: 0 4px 16px rgba(255, 0, 127, 0.4);
     }
-    .btn.primary:hover { background: var(--accent-hover); }
+    .btn.primary:hover { box-shadow: 0 6px 20px rgba(255, 0, 127, 0.6); }
 
     .owner-badge {
       font-size: 12px;
       color: var(--accent);
       text-align: center;
       font-weight: 600;
-      background: rgba(255, 123, 0, 0.1);
+      background: rgba(255, 0, 127, 0.1);
       padding: 6px;
       border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 0, 127, 0.2);
     }
 
     /* Main Content */
@@ -257,6 +262,8 @@
       justify-content: space-between;
       align-items: flex-end;
       margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .page-title {
@@ -267,33 +274,61 @@
       text-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
-    .header-actions { display: flex; gap: 12px; }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
 
-    /* Track Grid (Library) */
-    .track-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 24px;
-    }
-
-    .track-card {
-      background: rgba(10, 10, 15, 0.4);
+    /* View Toggles */
+    .view-toggles {
+      display: flex;
+      background: rgba(0,0,0,0.3);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-lg);
-      padding: 12px;
+      padding: 4px;
+    }
+    .view-toggle-btn {
+      background: transparent;
+      border: none;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .view-toggle-btn.active { background: var(--glass-bg-active); color: var(--text-primary); }
+    .view-toggle-btn:hover:not(.active) { color: var(--text-primary); }
+
+    /* Track Grid/List Common */
+    .library-container { width: 100%; }
+
+    .track-card {
+      background: rgba(15, 5, 25, 0.4);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
     }
     .track-card:hover {
-      transform: translateY(-4px) scale(1.02);
       border-color: var(--glass-border-light);
-      background: rgba(20, 20, 25, 0.6);
+      background: rgba(25, 10, 35, 0.6);
       box-shadow: 0 12px 24px rgba(0,0,0,0.4);
     }
+    .track-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track-artist { color: var(--text-secondary); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .art-container {
+    /* Grid View Specifics */
+    .library-container.view-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+    }
+    .library-container.view-grid .track-card {
+      padding: 12px;
+    }
+    .library-container.view-grid .track-card:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+    .library-container.view-grid .art-container {
       position: relative;
       aspect-ratio: 1;
       border-radius: var(--radius-md);
@@ -302,18 +337,45 @@
       margin-bottom: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .art-container img, .placeholder-art {
+    .library-container.view-grid .art-container img, 
+    .library-container.view-grid .placeholder-art {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.5s ease;
     }
-    .track-card:hover .art-container img { transform: scale(1.05); }
+    .library-container.view-grid .track-card:hover .art-container img { transform: scale(1.05); }
 
+    /* List View Specifics */
+    .library-container.view-list {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .library-container.view-list .track-card {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 8px 12px;
+    }
+    .library-container.view-list .track-card:hover {
+      transform: translateX(4px);
+    }
+    .library-container.view-list .art-container {
+      width: 56px; height: 56px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .library-container.view-list .art-container img, 
+    .library-container.view-list .placeholder-art {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* Common Art / Overlays */
     .placeholder-art {
       display: flex; align-items: center; justify-content: center;
       color: var(--text-secondary);
-      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+      background: linear-gradient(135deg, rgba(255,0,127,0.1), rgba(157,0,255,0.1));
     }
-
     .play-overlay {
       position: absolute; inset: 0;
       background: rgba(0,0,0,0.5);
@@ -323,21 +385,22 @@
     .track-card:hover .play-overlay { opacity: 1; }
     
     .play-icon {
-      width: 56px; height: 56px;
+      width: 48px; height: 48px;
       background: var(--accent);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       color: white;
-      box-shadow: 0 4px 12px rgba(255, 123, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(255, 0, 127, 0.4);
       transform: translateY(10px);
       transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     .track-card:hover .play-icon { transform: translateY(0); }
+    .library-container.view-list .play-icon {
+      width: 32px; height: 32px; transform: scale(0.8);
+    }
+    .library-container.view-list .track-card:hover .play-icon { transform: scale(1); }
 
-    .track-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .track-artist { color: var(--text-secondary); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    /* List View (Queue) */
+    /* Queue / List Items */
     .list-view { display: flex; flex-direction: column; gap: 8px; }
     
     .list-item {
@@ -347,12 +410,12 @@
       align-items: center;
       padding: 12px;
       border-radius: var(--radius-lg);
-      background: rgba(10, 10, 15, 0.3);
+      background: rgba(15, 5, 25, 0.3);
       border: 1px solid transparent;
       transition: all 0.2s;
     }
     .list-item:hover { 
-      background: rgba(20, 20, 25, 0.5);
+      background: rgba(25, 10, 35, 0.5);
       border-color: var(--glass-border);
       transform: translateX(4px);
     }
@@ -394,7 +457,7 @@
       border-radius: var(--radius-lg);
       backdrop-filter: blur(10px);
     }
-    .empty-state i { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5; }
+    .empty-state i { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5; color: var(--accent); }
     .empty-state h3 { color: var(--text-primary); font-size: 20px; margin: 0 0 8px 0; }
     .empty-state p { margin: 0; }
 
@@ -403,7 +466,7 @@
       position: fixed;
       bottom: 0; left: 0; right: 0;
       height: var(--player-h);
-      background: rgba(10, 10, 15, 0.7);
+      background: rgba(15, 5, 25, 0.75);
       backdrop-filter: blur(40px) saturate(150%);
       -webkit-backdrop-filter: blur(40px) saturate(150%);
       border-top: 1px solid var(--glass-border);
@@ -411,6 +474,7 @@
       grid-template-columns: 300px 1fr 300px;
       align-items: center;
       padding: 0 24px;
+      padding-bottom: env(safe-area-inset-bottom);
       z-index: 60;
     }
 
@@ -451,7 +515,7 @@
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 4px 12px rgba(255,255,255,0.2);
     }
-    .btn-play:hover { transform: scale(1.05); }
+    .btn-play:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(255,0,127,0.4); }
     .btn-play:active { transform: scale(0.95); }
     
     .scrubber-wrap {
@@ -490,7 +554,7 @@
 
     /* Dialog (Glassy) */
     dialog {
-      background: rgba(20, 20, 25, 0.85);
+      background: rgba(25, 10, 35, 0.85);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       color: var(--text-primary);
@@ -498,12 +562,12 @@
       border-radius: var(--radius-xl);
       padding: 32px;
       width: min(480px, 90vw);
-      box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.8);
       transform: scale(0.95); opacity: 0;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     dialog[open] { transform: scale(1); opacity: 1; }
-    dialog::backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); }
+    dialog::backdrop { background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
     
     .dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
     .dialog-header h3 { margin: 0; font-size: 22px; font-weight: 600; }
@@ -519,16 +583,17 @@
       font-size: 15px;
       transition: border-color 0.2s;
     }
-    .form-control:focus { border-color: var(--accent); outline: none; }
+    .form-control:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(255,0,127,0.2); }
     .dialog-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px; }
 
     /* Mobile Overlay */
     .mobile-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       z-index: 45; opacity: 0; transition: opacity 0.3s;
+      backdrop-filter: blur(4px);
     }
 
-    /* Responsive */
+    /* Responsive Design */
     @media (max-width: 900px) {
       .player-shell { grid-template-columns: 1fr 1fr 1fr; padding: 0 16px; }
       .scrubber-wrap { display: none; }
@@ -536,7 +601,7 @@
     }
 
     @media (max-width: 768px) {
-      .app-container { padding-top: 64px; }
+      .app-container { padding-top: calc(64px + env(safe-area-inset-top)); }
       .mobile-header { display: flex; }
       .sidebar {
         position: fixed; top: 0; bottom: var(--player-h); left: 0;
@@ -548,16 +613,24 @@
       .main-content { padding: 24px 16px; }
       .page-title { font-size: 32px; }
       
-      .player-shell { grid-template-columns: 1fr auto; padding: 0 16px; height: 80px; }
+      .player-shell { grid-template-columns: 1fr auto; padding: 0 16px; }
       .player-right { display: none; }
       .controls-main { gap: 16px; }
       
-      .track-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
       .list-actions { opacity: 1; } /* Always show actions on mobile */
       .np-art { width: 48px; height: 48px; }
     }
-    @media (max-width: 400px) {
-      .track-grid { grid-template-columns: 1fr; }
+
+    /* Fix forced large track sizes by enforcing at least 2 columns on very small screens */
+    @media (max-width: 450px) {
+      .library-container.view-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .track-card { padding: 8px !important; }
+      .art-container { margin-bottom: 12px !important; }
+      .track-title { font-size: 13px; }
+      .track-artist { font-size: 11px; }
     }
   </style>
 </head>
@@ -617,6 +690,15 @@
       <header class="header">
         <h1 id="pageTitle" class="page-title">Library</h1>
         <div class="header-actions">
+          <!-- View Toggles (Grid/List) -->
+          <div class="view-toggles" id="viewToggles">
+            <button class="view-toggle-btn active" data-view="grid" title="Grid View">
+              <i data-lucide="layout-grid" style="width:18px;height:18px;"></i>
+            </button>
+            <button class="view-toggle-btn" data-view="list" title="List View">
+              <i data-lucide="list" style="width:18px;height:18px;"></i>
+            </button>
+          </div>
           <button id="shuffleBtn" class="btn" title="Shuffle Play">
             <i data-lucide="shuffle"></i>
           </button>
@@ -627,7 +709,7 @@
       </header>
 
       <!-- Library View -->
-      <div id="libraryView" class="track-grid"></div>
+      <div id="libraryView" class="library-container view-grid"></div>
 
       <!-- Queue View -->
       <div id="queueView" class="list-view" hidden></div>
@@ -645,7 +727,7 @@
       <div class="placeholder-art np-art"><i data-lucide="music" style="width: 24px; height: 24px;"></i></div>
       <div class="np-info">
         <div class="np-title">Not Playing</div>
-        <div class="np-artist">...</div>
+        <div class="np-artist">Ready to mix</div>
       </div>
     </div>
 
@@ -679,7 +761,8 @@
     </div>
   </div>
 
-  <audio id="audio"></audio>
+  <!-- Note: playsinline allows inline playback without fullscreening on iOS -->
+  <audio id="audio" playsinline></audio>
 
   <!-- Owner Edit Dialog -->
   <dialog id="editDialog">
@@ -725,7 +808,7 @@
 
     const OWNER_EMAIL = 'tylern662@gmail.com';
     const TRACK_MANIFEST_PATH = '/tracks/index.json';
-    const LS_KEYS = { queue: 'cm_queue', overrides: 'cm_overrides', volume: 'cm_vol' };
+    const LS_KEYS = { queue: 'cm_queue', overrides: 'cm_overrides', volume: 'cm_vol', viewMode: 'cm_view_mode' };
 
     // App State
     const state = {
@@ -737,7 +820,8 @@
       trackOverrides: loadJSON(LS_KEYS.overrides, {}),
       currentTrackId: null,
       activeView: 'library',
-      searchQuery: ''
+      searchQuery: '',
+      libraryViewMode: localStorage.getItem(LS_KEYS.viewMode) || 'grid'
     };
 
     // DOM Elements Map
@@ -756,7 +840,6 @@
       shuffleBtn: document.getElementById('shuffleBtn'),
       npContainer: document.getElementById('npContainer'),
       toggleBtn: document.getElementById('toggleBtn'),
-      playIconSVG: document.getElementById('playIconSVG'),
       prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
       seekBar: document.getElementById('seekBar'),
@@ -775,7 +858,8 @@
       editArt: document.getElementById('editArt'),
       mobileMenuBtn: document.getElementById('mobileMenuBtn'),
       sidebar: document.getElementById('sidebar'),
-      mobileOverlay: document.getElementById('mobileOverlay')
+      mobileOverlay: document.getElementById('mobileOverlay'),
+      viewToggles: document.getElementById('viewToggles')
     };
 
     // Firebase Init
@@ -784,7 +868,7 @@
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
 
-    // Initialize Lucide Icons initially
+    // Initialize Lucide Icons
     lucide.createIcons();
 
     // Utility Functions
@@ -828,6 +912,37 @@
       return applyOverrides(state.tracks.find(t => t.id === id));
     }
 
+    // Media Session API for iOS / Background Play Control
+    function updateMediaSession(track) {
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: track.title,
+          artist: track.artist || 'Unknown Artist',
+          album: 'CaliMix by Skye',
+          artwork: track.art ? [
+            { src: track.art, sizes: '96x96', type: 'image/jpeg' },
+            { src: track.art, sizes: '128x128', type: 'image/jpeg' },
+            { src: track.art, sizes: '192x192', type: 'image/jpeg' },
+            { src: track.art, sizes: '256x256', type: 'image/jpeg' },
+            { src: track.art, sizes: '384x384', type: 'image/jpeg' },
+            { src: track.art, sizes: '512x512', type: 'image/jpeg' },
+          ] : []
+        });
+
+        navigator.mediaSession.setActionHandler('play', togglePlay);
+        navigator.mediaSession.setActionHandler('pause', togglePlay);
+        navigator.mediaSession.setActionHandler('previoustrack', playPrev);
+        navigator.mediaSession.setActionHandler('nexttrack', playNext);
+        navigator.mediaSession.setActionHandler('seekto', (details) => {
+          if (details.fastSeek && 'fastSeek' in el.audio) {
+            el.audio.fastSeek(details.seekTime);
+          } else {
+            el.audio.currentTime = details.seekTime;
+          }
+        });
+      }
+    }
+
     // Initialization
     async function init() {
       bindEvents();
@@ -836,6 +951,9 @@
       el.volumeBar.value = vol;
       el.audio.volume = vol;
 
+      // Set initial view mode
+      updateLibraryViewMode(state.libraryViewMode);
+
       try {
         const res = await fetch(TRACK_MANIFEST_PATH, { cache: 'no-store' });
         if (!res.ok) throw new Error('Manifest load failed');
@@ -843,8 +961,8 @@
         const items = Array.isArray(data) ? data : (data.tracks || []);
         state.tracks = items.map((t, i) => normalizeTrack(t, i)).filter(t => t.src);
       } catch (err) {
-        state.tracks = [
-        ];
+        // No placeholders! Simply set an empty array.
+        state.tracks = [];
       }
 
       state.queue = state.queue.filter(id => state.tracks.some(t => t.id === id));
@@ -862,6 +980,20 @@
       });
     }
 
+    // View Mode Toggle
+    function updateLibraryViewMode(mode) {
+      state.libraryViewMode = mode;
+      localStorage.setItem(LS_KEYS.viewMode, mode);
+      
+      // Update DOM classes
+      el.libraryView.className = `library-container view-${mode}`;
+      
+      // Update toggle buttons active state
+      document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === mode);
+      });
+    }
+
     // Rendering Engine
     function renderApp() {
       if(state.queue.length > 0) {
@@ -874,11 +1006,13 @@
       if (state.activeView === 'library') {
         el.libraryView.hidden = false;
         el.queueView.hidden = true;
+        el.viewToggles.style.display = 'flex';
         el.pageTitle.textContent = state.searchQuery ? 'Search Results' : 'Library';
         renderLibrary();
       } else {
         el.libraryView.hidden = true;
         el.queueView.hidden = false;
+        el.viewToggles.style.display = 'none';
         el.pageTitle.textContent = 'Up Next';
         renderQueue();
       }
@@ -888,29 +1022,35 @@
 
     function renderLibrary() {
       if (!state.filteredTracks.length) {
+        el.libraryView.className = 'library-container view-grid'; // Force fallback centering
         el.libraryView.innerHTML = `
-          <div class="empty-state">
-            <i data-lucide="search-x"></i>
-            <h3>No tracks found</h3>
-            <p>Try searching for something else.</p>
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <i data-lucide="music-4"></i>
+            <h3>No Tracks Available</h3>
+            <p>Ensure tracks are added to the manifest to get the party started.</p>
           </div>`;
         lucide.createIcons({ root: el.libraryView });
         return;
       }
       
+      // Restore standard class structure if it was overridden by empty state
+      el.libraryView.className = `library-container view-${state.libraryViewMode}`;
+
       el.libraryView.innerHTML = state.filteredTracks.map(track => `
         <div class="track-card" data-id="${track.id}">
           <div class="art-container">
             ${track.art 
               ? `<img src="${escapeHTML(track.art)}" loading="lazy" alt="Cover Art" />` 
-              : `<div class="placeholder-art"><i data-lucide="music" style="width: 40px; height: 40px;"></i></div>`
+              : `<div class="placeholder-art"><i data-lucide="music"></i></div>`
             }
             <div class="play-overlay">
-              <div class="play-icon"><i data-lucide="play" fill="currentColor" style="margin-left: 2px;"></i></div>
+              <div class="play-icon"><i data-lucide="play" fill="currentColor" style="margin-left: 3px;"></i></div>
             </div>
           </div>
-          <div class="track-title">${escapeHTML(track.title)}</div>
-          <div class="track-artist">${escapeHTML(track.artist || 'Unknown Artist')}</div>
+          <div class="track-info">
+            <div class="track-title">${escapeHTML(track.title)}</div>
+            <div class="track-artist">${escapeHTML(track.artist || 'Unknown Artist')}</div>
+          </div>
         </div>
       `).join('');
       
@@ -1028,6 +1168,7 @@
 
       el.audio.src = track.src;
       el.audio.play().catch(e => console.log('Autoplay blocked:', e));
+      updateMediaSession(track);
       renderPlayer();
       
       if(state.queue.length > 0) {
@@ -1073,6 +1214,14 @@
     // Events Setup
     function bindEvents() {
       
+      // View Toggle events
+      document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const mode = e.currentTarget.dataset.view;
+          updateLibraryViewMode(mode);
+        });
+      });
+
       // Mobile Menu
       const closeSidebar = () => {
         el.sidebar.classList.remove('open');
@@ -1210,6 +1359,7 @@
         applySearch();
         renderApp();
         renderPlayer();
+        if (state.currentTrackId === id) updateMediaSession(getTrack(id));
       });
 
       el.resetMetaBtn.addEventListener('click', () => {

@@ -101,5 +101,18 @@
       "west coast",
       "rap"
     ]
+  },
+  {
+    "id": "10homies",
+    "title": "10 Homies",
+    "artist": "Shakewell",
+    "album": "10 Homies",
+    "genre": "Rap",
+    "art": "https://imgs.search.brave.com/2GL-iMQHghydhYur2pm5w8pCDSK4qZ8fpGEjUjWth64/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/YnJvYWR0aW1lLmNv/bS80MTg0NTkxMjA0/MTE6NTAwLndlYnA",
+    "src": "/tracks/10homies.mp3",
+    "tags": [
+      "west coast",
+      "rap"
+    ]
   }
 ]

@@ -174,7 +174,20 @@
     "album": "Feline's Return",
     "genre": "RnB",
     "art": "https://imgs.search.brave.com/0S_KORvfKpZpVsFOjAkB3TEN3UIij2ZmwPrfm32d9Ws/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmF1/ZGlvbWFjay5jb20v/bmF0YW55YS1tdXNp/Yy80MjQzZjYxNzJk/LndlYnA_d2lkdGg9/MzYw",
-    "src": "/tracks/sofajoy.mp3",
+    "src": "/tracks/sofajoy.m4a",
+    "tags": [
+      "west coast",
+      "rnb"
+    ]
+  },
+  {
+    "id": "sunshinepopsmoke",
+    "title": "Sunshine",
+    "artist": "Jhené Aiko, Pop Smoke",
+    "album": "Sunshine (Single)",
+    "genre": "RnB, Rap",
+    "art": "https://imgs.search.brave.com/0S_KORvfKpZpVsFOjAkB3TEN3UIij2ZmwPrfm32d9Ws/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmF1/ZGlvbWFjay5jb20v/bmF0YW55YS1tdXNp/Yy80MjQzZjYxNzJk/LndlYnA_d2lkdGg9/MzYw",
+    "src": "/tracks/sunshinepopsmoke.m4a",
     "tags": [
       "west coast",
       "rnb"

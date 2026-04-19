@@ -53,7 +53,7 @@
   {
     "id": "wontfold",
     "title": "Wont Fold",
-    "artist": "Haitii Babii",
+    "artist": "Haiti Babii",
     "album": "(Street Performance)",
     "genre": "Rap",
     "art": "https://imgs.search.brave.com/tt_-n2q06XwH1ygwGcCitrW3O-LSDOcLE3DXen4QQwg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnl0/aW1nLmNvbS92aS9Y/WFZuMHE4R1Q4RS9o/cWRlZmF1bHQuanBn",
@@ -127,5 +127,19 @@
       "west coast",
       "rap"
     ]
+    },
+    {
+      "id": "Distractions",
+    "title": "Distractions",
+    "artist": "Haiti Babii",
+    "album": "Distractions",
+    "genre": "Rap",
+    "art": "https://i.scdn.co/image/ab67616d0000b273b46937ad0cc3e5eca50ab1f3",
+    "src": "/tracks/Distractions.mp3",
+    "tags": [
+      "west coast",
+      "rap"
+      ]
+    },
   }
 ]
